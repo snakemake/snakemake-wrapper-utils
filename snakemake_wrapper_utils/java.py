@@ -1,3 +1,5 @@
+import sys
+
 def get_java_opts(snakemake):
     """Obtain java_opts from params, and handle resource definitions in resources."""
 
