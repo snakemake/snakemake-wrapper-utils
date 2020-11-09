@@ -4,6 +4,8 @@ def get_java_opts(snakemake):
     """Obtain java_opts from params, and handle resource definitions in resources."""
 
     java_opts = snakemake.params.get("java_opts", "")
+    extra = snakemake.params.get("extra", "")
+
     # Getting memory in megabytes, if java opts is not filled with -Xmx parameter
     # By doing so, backward compatibility is preserved
     if "mem_mb" in snakemake.resources.keys():
@@ -28,6 +30,8 @@ def get_java_opts(snakemake):
     if "java_temp" in snakemake.output.keys():
         if "-Djava.io.tmpdir" in java_opts:
             sys.exit("You have specified output.java_temp and provided `-Djava.io.tmpdir` in params.java_opts. Please choose the one you intended and remove the other specification.")
+        if "-Djava.io.tmpdir" in extra:
+            sys.exit("You have specified output.java_temp and provided `-Djava.io.tmpdir` in params.extra. Please choose the one you intended and remove the other specification.")
         java_opts += " -Djava.io.tmpdir={}".format(snakemake.output["java_temp"])
 
     return java_opts
