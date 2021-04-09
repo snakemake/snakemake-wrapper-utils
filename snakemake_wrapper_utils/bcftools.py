@@ -2,8 +2,8 @@ import sys
 
 
 def get_bcftools_opts(snakemake):
-    """Obtain bcf_opts from output, params, and handle resource definitions in resources."""
-    bcf_opts = ""
+    """Obtain bcftools_opts from output, params, and handle resource definitions in resources."""
+    bcftools_opts = ""
     extra = snakemake.params.get("extra", "")
 
     ###############
@@ -13,7 +13,7 @@ def get_bcftools_opts(snakemake):
         sys.exit(
             "You have specified number of threads (`--threads`) in params.extra; please use only `threads`."
         )
-    bcf_opts += (
+    bcftools_opts += (
         "" if snakemake.threads <= 1 else "--threads {}".format(snakemake.threads - 1)
     )
 
@@ -41,7 +41,7 @@ def get_bcftools_opts(snakemake):
     else:
         raise ValueError("invalid output file extension ('.vcf', '.vcf.gz', '.bcf').")
 
-    bcf_opts += f" --output-type {out_format}"
+    bcftools_opts += f" --output-type {out_format}"
 
     ##############
     ### Memory ###
@@ -55,11 +55,11 @@ def get_bcftools_opts(snakemake):
         )
     # Getting memory in megabytes, as advised in documentation.
     if "mem_mb" in snakemake.resources.keys() and bcftools_use_mem:
-        bcf_opts += " --max-mem {}M".format(snakemake.resources["mem_mb"])
+        bcftools_opts += " --max-mem {}M".format(snakemake.resources["mem_mb"])
     # Getting memory in gigabytes, for user convenience. Please prefer the use
     # of mem_mb over mem_gb as advised in documentation.
     elif "mem_gb" in snakemake.resources.keys() and bcftools_use_mem:
-        bcf_opts += " --max-mem {}G".format(snakemake.resources["mem_gb"])
+        bcftools_opts += " --max-mem {}G".format(snakemake.resources["mem_gb"])
 
     ################
     ### Temp dir ###
@@ -70,6 +70,6 @@ def get_bcftools_opts(snakemake):
         )
     # Getting temp directory from output files list
     if "bcftools_temp" in snakemake.output.keys():
-        bcf_opts += " --temp-dir {}".format(snakemake.output["bcftools_temp"])
+        bcftools_opts += " --temp-dir {}".format(snakemake.output["bcftools_temp"])
 
-    return bcf_opts
+    return bcftools_opts
