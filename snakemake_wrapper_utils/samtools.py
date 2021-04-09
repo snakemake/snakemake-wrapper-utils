@@ -1,9 +1,6 @@
 import sys
 from os import path
 
-out_name, out_ext = path.splitext(snakemake.output[0])
-out_ext = out_ext[1:].upper()
-
 
 def get_samtools_opts(snakemake, parse_threads=True, parse_output_format=True):
     """Obtain samtools_opts from output, params, and handle resource definitions in resources."""
