@@ -22,11 +22,11 @@ def get_samtools_opts(
             sys.exit(
                 "You have specified number of threads (`-@/--threads`) in params.extra; please use only `threads`."
             )
-            samtools_opts += (
-                ""
-                if snakemake.threads <= 1
-                else " --threads {}".format(snakemake.threads - 1)
-            )
+        samtools_opts += (
+            ""
+            if snakemake.threads <= 1
+            else " --threads {}".format(snakemake.threads - 1)
+        )
 
     ###################
     ### Write index ###
@@ -36,8 +36,8 @@ def get_samtools_opts(
             sys.exit(
                 "You have specified writing index (`--write-index`) in params.extra; this is automatically infered from `idx` output file."
             )
-            if idx:
-                samtools_opts += " --write-index"
+        if idx:
+            samtools_opts += " --write-index"
 
     ###################
     ### Output file ###
@@ -47,9 +47,9 @@ def get_samtools_opts(
             sys.exit(
                 "You have specified output file (`-o`) in params.extra; this is automatically infered from the first output file."
             )
-            samtools_opts += " -o {snakemake.output[0]}"
-            if idx:
-                samtools_opts += f"##idx##{idx}"
+        samtools_opts += f" -o {snakemake.output[0]}"
+        if idx:
+            samtools_opts += f"##idx##{idx}"
 
     #####################
     ### Output format ###
