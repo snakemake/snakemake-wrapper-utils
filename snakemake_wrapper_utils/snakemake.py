@@ -17,4 +17,4 @@ def get_mem(snakemake, out_unit="MiB"):
     elif out_unit == "GiB":
         return mem_mb / 1024
     else:
-        raise valueError("invalid out_unit. Only KiB, MiB and GiB supported.")
+        raise valueError("invalid output unit. Only KiB, MiB and GiB supported.")
