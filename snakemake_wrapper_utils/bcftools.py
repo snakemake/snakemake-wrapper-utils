@@ -59,19 +59,16 @@ def get_bcftools_opts(
     ### Memory ###
     ##############
     if parse_memory:
-        # Should resources.mem_mb be passed to bcftools (not all tools support this option)
-        bcftools_use_mem = snakemake.params.get("bcftools_use_mem", False)
-
         if "-m" in extra or "--max-mem" in extra:
             sys.exit(
-                "You have provided `-m/--max-mem` in params.extra; please only use resources.mem_mb and set params.bcftools_use_mem."
+                "You have provided `-m/--max-mem` in params.extra; please only use resources.mem_mb."
             )
         # Getting memory in megabytes, as advised in documentation.
-        if "mem_mb" in snakemake.resources.keys() and bcftools_use_mem:
+        if "mem_mb" in snakemake.resources.keys():
             bcftools_opts += " --max-mem {}M".format(snakemake.resources["mem_mb"])
         # Getting memory in gigabytes, for user convenience. Please prefer the use
         # of mem_mb over mem_gb as advised in documentation.
-        elif "mem_gb" in snakemake.resources.keys() and bcftools_use_mem:
+        elif "mem_gb" in snakemake.resources.keys():
             bcftools_opts += " --max-mem {}G".format(snakemake.resources["mem_gb"])
 
     ################
