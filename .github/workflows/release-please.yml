@@ -26,16 +26,14 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
-      
-      - name: Build package
-        if: ${{ steps.release.outputs.release_created }}
+
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python setup.py sdist
+          pip install poetry
 
-      - name: Publish to PyPI
-        if: ${{ steps.release.outputs.release_created }}
-        uses: pypa/gh-action-pypi-publish@v1.5.0
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_TOKEN }}
+      - name: Build and publish
+        run: |
+          poetry version $(git describe --tags --abbrev=0)
+          poetry build
+          POETRY_PYPI_TOKEN_PYPI=${{ secrets.PYPI_TOKEN }} poetry publish
