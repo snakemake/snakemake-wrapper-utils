@@ -35,7 +35,7 @@ def get_bcftools_opts(
     if parse_threads:
         if "--threads" in extra:
             sys.exit(
-                "You have specified number of threads (`--threads`) in params.extra; please use only `threads`."
+                "You have specified number of threads (`--threads`) in `params.extra`; please use `threads`."
             )
         bcftools_opts += (
             ""
@@ -49,7 +49,7 @@ def get_bcftools_opts(
     if parse_output_format:
         if "-O" in extra or "--output-type" in extra:
             sys.exit(
-                "You have specified output format (`-O/--output-type`) in params.extra; this is automatically infered from output file extension."
+                "You have specified output format (`-O/--output-type`) in `params.extra`; this is automatically infered from output file extension."
             )
 
         out_format = infer_out_format(snakemake.output[0])
@@ -61,7 +61,7 @@ def get_bcftools_opts(
     if parse_memory:
         if "-m" in extra or "--max-mem" in extra:
             sys.exit(
-                "You have provided `-m/--max-mem` in params.extra; please use resources.mem_mb."
+                "You have provided `-m/--max-mem` in `params.extra`; please use `resources.mem_mb`."
             )
         # Getting memory in megabytes, as advised in documentation.
         if "mem_mb" in snakemake.resources.keys():
@@ -76,7 +76,7 @@ def get_bcftools_opts(
     ################
     if "-T" in extra or "--temp-dir" in extra:
         sys.exit(
-            "You have provided `-T/--temp-dir` in params.extra; please use resources.tmpdir."
+            "You have provided `-T/--temp-dir` in `params.extra`; please use `resources.tmpdir`."
         )
 
     return bcftools_opts
