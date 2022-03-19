@@ -1,8 +1,7 @@
 import sys
 
 
-
-def infer_out_format(output, uncompressed_bcf = False):
+def infer_out_format(output, uncompressed_bcf=False):
     if output.endswith(".vcf"):
         out_format = "v"
     elif output.endswith(".vcf.gz"):
@@ -13,15 +12,13 @@ def infer_out_format(output, uncompressed_bcf = False):
         else:
             out_format = "b"
     else:
-        raise ValueError(
-            "invalid output file extension ('.vcf', '.vcf.gz', '.bcf')."
-        )
-
+        raise ValueError("invalid output file extension ('.vcf', '.vcf.gz', '.bcf').")
 
 
 def get_bcftools_opts(
     snakemake,
     parse_threads=True,
+    parse_output=True,
     parse_output_format=True,
     parse_memory=True,
 ):
@@ -43,6 +40,16 @@ def get_bcftools_opts(
             else "--threads {}".format(snakemake.threads - 1)
         )
 
+    ###################
+    ### Output file ###
+    ###################
+    if parse_output:
+        if "-o" in extra or "--output" in extra:
+            sys.exit(
+                "You have specified output file (`-o/--output`) in `params.extra`; this is automatically infered from the first output file."
+            )
+        bcftools_opts += f" -o {snakemake.output[0]}"
+
     #####################
     ### Output format ###
     #####################
@@ -52,7 +59,9 @@ def get_bcftools_opts(
                 "You have specified output format (`-O/--output-type`) in `params.extra`; this is automatically infered from output file extension."
             )
 
-        out_format = infer_out_format(snakemake.output[0], snakemake.params.get("uncompressed_bcf", False))
+        out_format = infer_out_format(
+            snakemake.output[0], snakemake.params.get("uncompressed_bcf", False)
+        )
         bcftools_opts += f" --output-type {out_format}"
 
     ##############
