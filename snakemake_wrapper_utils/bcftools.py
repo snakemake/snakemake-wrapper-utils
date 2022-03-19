@@ -2,13 +2,13 @@ import sys
 
 
 
-def infer_out_format(output):
+def infer_out_format(output, uncompressed_bcf = False):
     if output.endswith(".vcf"):
         out_format = "v"
     elif output.endswith(".vcf.gz"):
         out_format = "z"
     elif output.endswith(".bcf"):
-        if snakemake.params.get("uncompressed_bcf", False):
+        if uncompressed_bcf:
             out_format = "u"
         else:
             out_format = "b"
@@ -52,7 +52,7 @@ def get_bcftools_opts(
                 "You have specified output format (`-O/--output-type`) in `params.extra`; this is automatically infered from output file extension."
             )
 
-        out_format = infer_out_format(snakemake.output[0])
+        out_format = infer_out_format(snakemake.output[0], snakemake.params.get("uncompressed_bcf", False))
         bcftools_opts += f" --output-type {out_format}"
 
     ##############
