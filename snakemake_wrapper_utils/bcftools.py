@@ -1,12 +1,29 @@
 import sys
 
 
+
+def infer_out_format(output):
+    if output.endswith(".vcf"):
+        out_format = "v"
+    elif output.endswith(".vcf.gz"):
+        out_format = "z"
+    elif output.endswith(".bcf"):
+        if snakemake.params.get("uncompressed_bcf", False):
+            out_format = "u"
+        else:
+            out_format = "b"
+    else:
+        raise ValueError(
+            "invalid output file extension ('.vcf', '.vcf.gz', '.bcf')."
+        )
+
+
+
 def get_bcftools_opts(
     snakemake,
     parse_threads=True,
     parse_output_format=True,
     parse_memory=True,
-    parse_temp_dir=True,
 ):
     """Obtain bcftools_opts from output, params, and handle resource definitions in resources."""
     bcftools_opts = ""
@@ -35,24 +52,7 @@ def get_bcftools_opts(
                 "You have specified output format (`-O/--output-type`) in params.extra; this is automatically infered from output file extension."
             )
 
-        # Output uncompressed BCF; ignored if output is VCF
-        uncompressed_bcf = snakemake.params.get("uncompressed_bcf", False)
-
-        output = snakemake.output[0]
-        if output.endswith(".vcf"):
-            out_format = "v"
-        elif output.endswith(".vcf.gz"):
-            out_format = "z"
-        elif output.endswith(".bcf"):
-            if uncompressed_bcf:
-                out_format = "u"
-            else:
-                out_format = "b"
-        else:
-            raise ValueError(
-                "invalid output file extension ('.vcf', '.vcf.gz', '.bcf')."
-            )
-
+        out_format = infer_out_format(snakemake.output[0])
         bcftools_opts += f" --output-type {out_format}"
 
     ##############
@@ -61,7 +61,7 @@ def get_bcftools_opts(
     if parse_memory:
         if "-m" in extra or "--max-mem" in extra:
             sys.exit(
-                "You have provided `-m/--max-mem` in params.extra; please only use resources.mem_mb."
+                "You have provided `-m/--max-mem` in params.extra; please use resources.mem_mb."
             )
         # Getting memory in megabytes, as advised in documentation.
         if "mem_mb" in snakemake.resources.keys():
@@ -74,13 +74,9 @@ def get_bcftools_opts(
     ################
     ### Temp dir ###
     ################
-    if parse_temp_dir:
-        if "-T" in extra or "--temp-dir" in extra:
-            sys.exit(
-                "You have provided `-T/--temp-dir` in params.extra; please provide a temp dir as output.bcftools_temp."
-            )
-        # Getting temp directory from output files list
-        if "bcftools_temp" in snakemake.output.keys():
-            bcftools_opts += " --temp-dir {}".format(snakemake.output["bcftools_temp"])
+    if "-T" in extra or "--temp-dir" in extra:
+        sys.exit(
+            "You have provided `-T/--temp-dir` in params.extra; please use resources.tmpdir."
+        )
 
     return bcftools_opts
