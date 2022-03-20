@@ -83,9 +83,9 @@ def get_bcftools_opts(
     ################
     ### Temp dir ###
     ################
-    if "-T" in extra or "--temp-dir" in extra:
+    if "-T" in extra or "--temp-dir" in extra or "--temp-prefix" in extra:
         sys.exit(
-            "You have provided `-T/--temp-dir` in `params.extra`; please use `resources.tmpdir`."
+            "You have provided `-T/--temp-dir/--temp-prefix` in `params.extra`; please use `resources.tmpdir`."
         )
 
     return bcftools_opts
