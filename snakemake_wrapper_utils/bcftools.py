@@ -18,6 +18,7 @@ def infer_out_format(output, uncompressed_bcf=False):
 def get_bcftools_opts(
     snakemake,
     parse_threads=True,
+    parse_ref=True,
     parse_output=True,
     parse_output_format=True,
     parse_memory=True,
@@ -39,6 +40,18 @@ def get_bcftools_opts(
             if snakemake.threads <= 1
             else "--threads {}".format(snakemake.threads - 1)
         )
+
+    ######################
+    ### Reference file ###
+    ######################
+    if parse_ref:
+        if "-f" in extra or "--fasta-ref" in extra:
+            sys.exit(
+                "You have specified reference file (`-f/--fasta-ref`) in `params.extra`; this is automatically infered from the `ref` output file."
+            )
+
+        if snakemake.output.get("ref"):
+            bcftools_opts += f" --fasta-ref {snakemake.output.ref}"
 
     ###################
     ### Output file ###
