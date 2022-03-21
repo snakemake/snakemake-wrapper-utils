@@ -12,7 +12,7 @@ def infer_out_format(output, uncompressed_bcf=False):
         else:
             out_format = "b"
     else:
-        raise ValueError("invalid output file extension ('.vcf', '.vcf.gz', '.bcf').")
+        raise ValueError("invalid output file format ('.vcf', '.vcf.gz', '.bcf').")
 
 
 def get_bcftools_opts(
@@ -23,7 +23,7 @@ def get_bcftools_opts(
     parse_output_format=True,
     parse_memory=True,
 ):
-    """Obtain bcftools_opts from output, params, and handle resource definitions in resources."""
+    """Obtain bcftools_opts from output, params, and handle resource definitions."""
     bcftools_opts = ""
     extra = snakemake.params.get("extra", "")
 
