@@ -2,6 +2,13 @@ import sys
 from os import path
 
 
+
+def infer_out_format(output):
+    out_name, out_ext = path.splitext(file_name)
+    return out_ext[1:].upper()
+
+
+
 def get_samtools_opts(
     snakemake,
     parse_threads=True,
@@ -59,8 +66,7 @@ def get_samtools_opts(
             sys.exit(
                 "You have specified output format (`-O/--output-fmt`) in params.extra; this is automatically infered from output file extension."
             )
-        out_name, out_ext = path.splitext(snakemake.output[0])
-        out_ext = out_ext[1:].upper()
+        out_ext = infer_out_format(snakemake.output[0])
         samtools_opts += f" --output-fmt {out_ext}"
 
     return samtools_opts
