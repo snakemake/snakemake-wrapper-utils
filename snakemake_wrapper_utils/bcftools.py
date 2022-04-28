@@ -3,14 +3,14 @@ import sys
 
 def infer_out_format(output, uncompressed_bcf=False):
     if output.endswith(".vcf"):
-        out_format = "v"
+        return "v"
     elif output.endswith(".vcf.gz"):
-        out_format = "z"
+        return "z"
     elif output.endswith(".bcf"):
         if uncompressed_bcf:
-            out_format = "u"
+            return "u"
         else:
-            out_format = "b"
+            return "b"
     else:
         raise ValueError("invalid output file format ('.vcf', '.vcf.gz', '.bcf').")
 
