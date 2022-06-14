@@ -49,7 +49,7 @@ def get_bcftools_opts(
     if parse_ref:
         if "-f" in extra or "--fasta-ref" in extra:
             sys.exit(
-                "You have specified reference file (`-f/--fasta-ref`) in `params.extra`; this is automatically infered from the `ref` output file."
+                "You have specified reference file (`-f/--fasta-ref`) in `params.extra`; this is automatically infered from the `ref` input file."
             )
 
         if snakemake.input.get("ref"):
