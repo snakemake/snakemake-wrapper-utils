@@ -52,8 +52,8 @@ def get_bcftools_opts(
                 "You have specified reference file (`-f/--fasta-ref`) in `params.extra`; this is automatically infered from the `ref` output file."
             )
 
-        if snakemake.output.get("ref"):
-            bcftools_opts += f" --fasta-ref {snakemake.output.ref}"
+        if snakemake.input.get("ref"):
+            bcftools_opts += f" --fasta-ref {snakemake.input.ref}"
 
 
     ###################
