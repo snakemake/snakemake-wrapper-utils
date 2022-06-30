@@ -3,7 +3,7 @@ from os import path
 
 
 
-def infer_out_format(output):
+def infer_out_format(file_name):
     out_name, out_ext = path.splitext(file_name)
     return out_ext[1:].upper()
 
