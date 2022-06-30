@@ -1,5 +1,13 @@
 # Changelog
 
+### [0.4.1](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.4.0...v0.4.1) (2022-06-30)
+
+
+### Bug Fixes
+
+* fixed missing return values ([#15](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/15)) ([c6f0fa7](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/c6f0fa71affe7c89a780d44b15050a1ad71cfe1a))
+* rename argument in function 'infer_out_format' ([#17](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/17)) ([93d25fa](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/93d25fae4527cbad277aaf9cec4e966b0cc8c81d))
+
 ## [0.4.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.3.1...v0.4.0) (2022-04-25)
 
 
