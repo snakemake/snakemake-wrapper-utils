@@ -3,14 +3,14 @@ import sys
 
 def infer_out_format(output, uncompressed_bcf=False):
     if output.endswith(".vcf"):
-        out_format = "v"
+        return "v"
     elif output.endswith(".vcf.gz"):
-        out_format = "z"
+        return "z"
     elif output.endswith(".bcf"):
         if uncompressed_bcf:
-            out_format = "u"
+            return "u"
         else:
-            out_format = "b"
+            return "b"
     else:
         raise ValueError("invalid output file format ('.vcf', '.vcf.gz', '.bcf').")
 
@@ -27,6 +27,7 @@ def get_bcftools_opts(
     bcftools_opts = ""
     extra = snakemake.params.get("extra", "")
 
+
     ###############
     ### Threads ###
     ###############
@@ -41,17 +42,19 @@ def get_bcftools_opts(
             else "--threads {}".format(snakemake.threads - 1)
         )
 
+
     ######################
     ### Reference file ###
     ######################
     if parse_ref:
         if "-f" in extra or "--fasta-ref" in extra:
             sys.exit(
-                "You have specified reference file (`-f/--fasta-ref`) in `params.extra`; this is automatically infered from the `ref` output file."
+                "You have specified reference file (`-f/--fasta-ref`) in `params.extra`; this is automatically infered from the `ref` input file."
             )
 
-        if snakemake.output.get("ref"):
-            bcftools_opts += f" --fasta-ref {snakemake.output.ref}"
+        if snakemake.input.get("ref"):
+            bcftools_opts += f" --fasta-ref {snakemake.input.ref}"
+
 
     ###################
     ### Output file ###
@@ -62,6 +65,7 @@ def get_bcftools_opts(
                 "You have specified output file (`-o/--output`) in `params.extra`; this is automatically infered from the first output file."
             )
         bcftools_opts += f" -o {snakemake.output[0]}"
+
 
     #####################
     ### Output format ###
@@ -76,6 +80,7 @@ def get_bcftools_opts(
             snakemake.output[0], snakemake.params.get("uncompressed_bcf", False)
         )
         bcftools_opts += f" --output-type {out_format}"
+
 
     ##############
     ### Memory ###
@@ -93,6 +98,7 @@ def get_bcftools_opts(
         elif "mem_gb" in snakemake.resources.keys():
             bcftools_opts += " --max-mem {}G".format(snakemake.resources["mem_gb"])
 
+
     ################
     ### Temp dir ###
     ################
@@ -100,5 +106,6 @@ def get_bcftools_opts(
         sys.exit(
             "You have provided `-T/--temp-dir/--temp-prefix` in `params.extra`; please use `resources.tmpdir`."
         )
+
 
     return bcftools_opts
