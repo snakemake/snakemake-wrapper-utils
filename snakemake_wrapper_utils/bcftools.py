@@ -30,7 +30,6 @@ def get_bcftools_opts(
     bcftools_opts = ""
     extra = snakemake.params.get("extra", "")
 
-
     ###############
     ### Threads ###
     ###############
@@ -45,7 +44,6 @@ def get_bcftools_opts(
             else "--threads {}".format(snakemake.threads - 1)
         )
 
-
     ######################
     ### Reference file ###
     ######################
@@ -58,7 +56,6 @@ def get_bcftools_opts(
         if snakemake.input.get("ref"):
             bcftools_opts += f" --fasta-ref {snakemake.input.ref}"
 
-    
     ####################
     ### Regions file ###
     ####################
@@ -70,7 +67,6 @@ def get_bcftools_opts(
 
         if snakemake.input.get("regions"):
             bcftools_opts += f" --regions-file {snakemake.input.regions}"
-
 
     ####################
     ### Samples file ###
@@ -84,7 +80,6 @@ def get_bcftools_opts(
         if snakemake.input.get("samples"):
             bcftools_opts += f" --samples-file {snakemake.input.samples}"
 
-
     ####################
     ### Targets file ###
     ####################
@@ -97,7 +92,6 @@ def get_bcftools_opts(
         if snakemake.input.get("targets"):
             bcftools_opts += f" --targets-file {snakemake.input.targets}"
 
-
     ###################
     ### Output file ###
     ###################
@@ -107,7 +101,6 @@ def get_bcftools_opts(
                 "You have specified output file (`-o/--output`) in `params.extra`; this is automatically infered from the first output file."
             )
         bcftools_opts += f" -o {snakemake.output[0]}"
-
 
     #####################
     ### Output format ###
@@ -122,7 +115,6 @@ def get_bcftools_opts(
             snakemake.output[0], snakemake.params.get("uncompressed_bcf", False)
         )
         bcftools_opts += f" --output-type {out_format}"
-
 
     ##############
     ### Memory ###
@@ -140,7 +132,6 @@ def get_bcftools_opts(
         elif "mem_gb" in snakemake.resources.keys():
             bcftools_opts += " --max-mem {}G".format(snakemake.resources["mem_gb"])
 
-
     ################
     ### Temp dir ###
     ################
@@ -148,6 +139,5 @@ def get_bcftools_opts(
         sys.exit(
             "You have provided `-T/--temp-dir/--temp-prefix` in `params.extra`; please use `resources.tmpdir`."
         )
-
 
     return bcftools_opts
