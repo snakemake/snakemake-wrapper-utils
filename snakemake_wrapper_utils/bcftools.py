@@ -19,6 +19,9 @@ def get_bcftools_opts(
     snakemake,
     parse_threads=True,
     parse_ref=True,
+    parse_region=True,
+    parse_samples=True,
+    parse_targets=True,
     parse_output=True,
     parse_output_format=True,
     parse_memory=True,
@@ -54,6 +57,45 @@ def get_bcftools_opts(
 
         if snakemake.input.get("ref"):
             bcftools_opts += f" --fasta-ref {snakemake.input.ref}"
+
+    
+    ####################
+    ### Regions file ###
+    ####################
+    if parse_region:
+        if "--region-file" in extra or "-R" in extra:
+            sys.exit(
+                "You have specified region file (`-R/--regions-file`) in `params.extra`; this is automatically infered from the `regions` input file."
+            )
+
+        if snakemake.input.get("regions"):
+            bcftools_opts += f" --regions-file {snakemake.input.regions}"
+
+
+    ####################
+    ### Samples file ###
+    ####################
+    if parse_samples:
+        if "-S" in extra or "--samples-file" in extra:
+            sys.exit(
+                "You have specified samples file (`-S/--samples-file`) in `params.extra`; this is automatically infered from the `samples` input file."
+            )
+
+        if snakemake.input.get("samples"):
+            bcftools_opts += f" --samples-file {snakemake.input.samples}"
+
+
+    ####################
+    ### Targets file ###
+    ####################
+    if parse_targets:
+        if "-T" in extra or "--targets-file" in extra:
+            sys.exit(
+                "You have specified samples file (`-T/--targets-file`) in `params.extra`; this is automatically infered from the `targets` input file."
+            )
+
+        if snakemake.input.get("targets"):
+            bcftools_opts += f" --targets-file {snakemake.input.targets}"
 
 
     ###################
