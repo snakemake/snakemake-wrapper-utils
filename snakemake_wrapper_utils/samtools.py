@@ -12,6 +12,7 @@ def infer_out_format(file_name):
 def get_samtools_opts(
     snakemake,
     parse_threads=True,
+    parse_ref=True,
     parse_write_index=True,
     parse_output=True,
     parse_output_format=True,
@@ -34,6 +35,18 @@ def get_samtools_opts(
             if snakemake.threads <= 1
             else " --threads {}".format(snakemake.threads - 1)
         )
+
+    ######################
+    ### Reference file ###
+    ######################
+    if parse_ref:
+        if "--reference" in extra:
+            sys.exit(
+                "You have specified reference file (`--reference`) in `params.extra`; this is automatically infered from the `ref` input file."
+            )
+
+        if snakemake.input.get("ref"):
+            samtools_opts += f" --reference {snakemake.input.ref}"
 
     ###################
     ### Write index ###
