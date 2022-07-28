@@ -1,4 +1,3 @@
-
 def get_mem(snakemake, out_unit="MiB"):
     """
     Obtain requested memory (from resources) and return in given units.
