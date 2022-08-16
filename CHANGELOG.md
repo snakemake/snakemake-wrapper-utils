@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.4.1...v0.5.0) (2022-08-16)
+
+
+### Features
+
+* Adding parsing of reference ([#20](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/20)) ([5c259f5](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/5c259f5c9f5d4a15036bc6d2717e23e65cbe5917))
+* Regions, samples and targets in get_bcftools_opts ([#19](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/19)) ([e916c8b](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/e916c8b56600655798ff7c1e12133aa44000035c))
+
 ### [0.4.1](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.4.0...v0.4.1) (2022-06-30)
 
 
