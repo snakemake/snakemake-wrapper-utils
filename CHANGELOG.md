@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.5.1](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.5.0...v0.5.1) (2022-12-09)
+
+
+### Bug Fixes
+
+* typo when checking for regions file in params.extra ([#22](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/22)) ([fa70493](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/fa704938530accc957f48b267dde051cbd8d20fc))
+
 ## [0.5.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.4.1...v0.5.0) (2022-08-16)
 
 
