@@ -19,7 +19,7 @@ def get_bcftools_opts(
     snakemake,
     parse_threads=True,
     parse_ref=True,
-    parse_region=True,
+    parse_regions=True,
     parse_samples=True,
     parse_targets=True,
     parse_output=True,
@@ -59,10 +59,10 @@ def get_bcftools_opts(
     ####################
     ### Regions file ###
     ####################
-    if parse_region:
-        if "--region-file" in extra or "-R" in extra:
+    if parse_regions:
+        if "--regions-file" in extra or "-R" in extra:
             sys.exit(
-                "You have specified region file (`-R/--regions-file`) in `params.extra`; this is automatically infered from the `regions` input file."
+                "You have specified regions file (`-R/--regions-file`) in `params.extra`; this is automatically infered from the `regions` input file."
             )
 
         if snakemake.input.get("regions"):
@@ -86,7 +86,7 @@ def get_bcftools_opts(
     if parse_targets:
         if "-T" in extra or "--targets-file" in extra:
             sys.exit(
-                "You have specified samples file (`-T/--targets-file`) in `params.extra`; this is automatically infered from the `targets` input file."
+                "You have specified targets file (`-T/--targets-file`) in `params.extra`; this is automatically infered from the `targets` input file."
             )
 
         if snakemake.input.get("targets"):
@@ -100,7 +100,7 @@ def get_bcftools_opts(
             sys.exit(
                 "You have specified output file (`-o/--output`) in `params.extra`; this is automatically infered from the first output file."
             )
-        bcftools_opts += f" -o {snakemake.output[0]}"
+        bcftools_opts += f" --output {snakemake.output[0]}"
 
     #####################
     ### Output format ###
@@ -137,7 +137,7 @@ def get_bcftools_opts(
     ################
     if "-T" in extra or "--temp-dir" in extra or "--temp-prefix" in extra:
         sys.exit(
-            "You have provided `-T/--temp-dir/--temp-prefix` in `params.extra`; please use `resources.tmpdir`."
+            "You have provided `-T/--temp-dir/--temp-prefix` in `params.extra`; please use the `tmpdir` resource."
         )
 
     return bcftools_opts
