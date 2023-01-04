@@ -1,5 +1,7 @@
 import sys
 
+def java_mem_xmx_error(unit, params_key):
+    return f"You have specified resources.mem_{unit} and provided `-Xmx` in params.{params_key}. For Java memory specifications, please only use resources.mem_mb (for total memory reserved for the rule) and params.java_mem_overhead_mb (to specify any required non-heap overhead that needs to be set aside before determining the -Xmx value)."
 
 def get_java_opts(snakemake):
     """Obtain java_opts from params, and handle resource definitions in resources."""
@@ -12,26 +14,37 @@ def get_java_opts(snakemake):
     if "mem_mb" in snakemake.resources.keys():
         if "-Xmx" in java_opts:
             sys.exit(
-                "You have specified resources.mem_mb and provided `-Xmx` in params.java_opts. For Java memory specifications, please only use resources.mem_mb."
+                java_mem_xmx_error("mb", "java_opts")
             )
         if "-Xmx" in extra:
             sys.exit(
-                "You have specified resources.mem_mb and provided `-Xmx` in params.extra. For Java memory specifications, please only use resources.mem_mb."
+                java_mem_xmx_error("mb", "extra")
             )
-        java_opts += " -Xmx{}M".format(snakemake.resources["mem_mb"])
+        if "java_mem_overhead_mb" in snakemake.params.keys():
+            assert snakemake.resources["mem_mb"] > snakemake.params["java_mem_overhead_mb"]
+            java_opts += " -Xmx{}M".format(snakemake.resources["mem_mb"] - snakemake.params["java_mem_overhead_mb"])
+        else:
+            java_opts += " -Xmx{}M".format( round( snakemake.resources["mem_mb"] * 0.8 ) )
+
 
     # Getting memory in gigabytes, for user convenience. Please prefer the use
     # of mem_mb over mem_gb as advised in documentation.
     elif "mem_gb" in snakemake.resources.keys():
         if "-Xmx" in java_opts:
             sys.exit(
-                "You have specified resources.mem_gb and provided `-Xmx` in params.java_opts. For Java memory specifications, please only use resources.mem_mb."
+                java_mem_xmx_error("gb", "java_opts")
             )
         if "-Xmx" in extra:
             sys.exit(
-                "You have specified resources.mem_gb and provided `-Xmx` in params.extra. For Java memory specifications, please only use resources.mem_mb."
+                java_mem_xmx_error("gb", "extra")
             )
         java_opts += " -Xmx{}G".format(snakemake.resources["mem_gb"])
+        if "java_mem_overhead_mb" in snakemake.params.keys():
+            assert snakemake.resources["mem_gb"] > round(snakemake.params["java_mem_overhead_mb"] / 1024)
+            java_opts += " -Xmx{}G".format(snakemake.resources["mem_gb"] - round(snakemake.params["java_mem_overhead_mb"] / 1024) )
+        else:
+            java_opts += " -Xmx{}G".format( round( snakemake.resources["mem_gb"] * 0.8 ) )
+
 
     # Getting java temp directory from output files list, if -Djava.io.tmpdir
     # is not provided in java parameters. By doing so, backward compatibility is
