@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.5.2](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.5.1...v0.5.2) (2023-01-09)
+
+
+### Bug Fixes
+
+* introduce default 20% deduction from resources.mem_mb and override via params.java_mem_overhead_mv ([#24](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/24)) ([71403bd](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/71403bd4a843cc66bee28c6a11a279654b2b1857))
+
 ### [0.5.1](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.5.0...v0.5.1) (2022-12-09)
 
 
