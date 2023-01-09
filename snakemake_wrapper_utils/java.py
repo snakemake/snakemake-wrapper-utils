@@ -3,11 +3,12 @@ import sys
 def java_mem_xmx_error(unit, params_key):
     return f"You have specified resources.mem_{unit} and provided `-Xmx` in params.{params_key}. For Java memory specifications, please only use resources.mem_mb (for total memory reserved for the rule) and params.java_mem_overhead_mb (to specify any required non-heap overhead that needs to be set aside before determining the -Xmx value)."
 
-def get_java_opts(snakemake):
+def get_java_opts(snakemake, java_mem_overhead_factor=0.2):
     """Obtain java_opts from params, and handle resource definitions in resources."""
 
     java_opts = snakemake.params.get("java_opts", "")
     extra = snakemake.params.get("extra", "")
+    assert 0.0 <= java_mem_overhead_factor <= 1.0
 
     # Getting memory in megabytes, if java opts is not filled with -Xmx parameter
     # By doing so, backward compatibility is preserved
@@ -20,11 +21,7 @@ def get_java_opts(snakemake):
             sys.exit(
                 java_mem_xmx_error("mb", "extra")
             )
-        if "java_mem_overhead_mb" in snakemake.params.keys():
-            assert snakemake.resources["mem_mb"] > snakemake.params["java_mem_overhead_mb"]
-            java_opts += " -Xmx{}M".format(snakemake.resources["mem_mb"] - snakemake.params["java_mem_overhead_mb"])
-        else:
-            java_opts += " -Xmx{}M".format( round( snakemake.resources["mem_mb"] * 0.8 ) )
+        java_opts += " -Xmx{}M".format( round( snakemake.resources["mem_mb"] * (1.0 - java_mem_overhead_factor) ) )
 
 
     # Getting memory in gigabytes, for user convenience. Please prefer the use
@@ -38,12 +35,7 @@ def get_java_opts(snakemake):
             sys.exit(
                 java_mem_xmx_error("gb", "extra")
             )
-        java_opts += " -Xmx{}G".format(snakemake.resources["mem_gb"])
-        if "java_mem_overhead_mb" in snakemake.params.keys():
-            assert snakemake.resources["mem_gb"] > round(snakemake.params["java_mem_overhead_mb"] / 1024)
-            java_opts += " -Xmx{}G".format(snakemake.resources["mem_gb"] - round(snakemake.params["java_mem_overhead_mb"] / 1024) )
-        else:
-            java_opts += " -Xmx{}G".format( round( snakemake.resources["mem_gb"] * 0.8 ) )
+        java_opts += " -Xmx{}G".format( round( snakemake.resources["mem_gb"] * (1.0 - java_mem_overhead_factor) ) )
 
 
     # Getting java temp directory from output files list, if -Djava.io.tmpdir
