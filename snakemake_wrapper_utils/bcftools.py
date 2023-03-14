@@ -66,6 +66,10 @@ def get_bcftools_opts(
             )
 
         if snakemake.input.get("regions"):
+            if not snakemake.input.get("index"):
+                sys.exit(
+                    "You have specified a `regions=` file in `input:`; this implies the `--regions-file` option of bcftools and thus also requires an `index=` file specified in the `input:`, but none was found."
+                )
             bcftools_opts += f" --regions-file {snakemake.input.regions}"
 
     ####################
