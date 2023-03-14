@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.5.3](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.5.2...v0.5.3) (2023-03-14)
+
+
+### Bug Fixes
+
+* check for `input: index=""`, when `input: regions=""` is specified, as the `--regions-file` option requires an index ([#26](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/26)) ([7e11735](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/7e117351211369e4f58753845f3fc19d5fad7606))
+
 ### [0.5.2](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.5.1...v0.5.2) (2023-01-09)
 
 
