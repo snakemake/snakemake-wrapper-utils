@@ -1,4 +1,5 @@
 import sys
+from snakemake import get_mem, is_arg
 
 
 def infer_out_format(output, uncompressed_bcf=False):
@@ -34,7 +35,7 @@ def get_bcftools_opts(
     ### Threads ###
     ###############
     if parse_threads:
-        if "--threads" in extra:
+        if is_arg("--threads", extra):
             sys.exit(
                 "You have specified number of threads (`--threads`) in `params.extra`; please use `threads`."
             )
@@ -48,7 +49,7 @@ def get_bcftools_opts(
     ### Reference file ###
     ######################
     if parse_ref:
-        if "-f" in extra or "--fasta-ref" in extra:
+        if is_arg("-f", extra) or is_arg("--fasta-ref", extra):
             sys.exit(
                 "You have specified reference file (`-f/--fasta-ref`) in `params.extra`; this is automatically infered from the `ref` input file."
             )
@@ -60,7 +61,7 @@ def get_bcftools_opts(
     ### Regions file ###
     ####################
     if parse_regions:
-        if "--regions-file" in extra or "-R" in extra:
+        if is_arg("--regions-file", extra) or is_arg("-R", extra):
             sys.exit(
                 "You have specified regions file (`-R/--regions-file`) in `params.extra`; this is automatically infered from the `regions` input file."
             )
@@ -68,7 +69,7 @@ def get_bcftools_opts(
         if snakemake.input.get("regions"):
             if not snakemake.input.get("index"):
                 sys.exit(
-                    "You have specified a `regions=` file in `input:`; this implies the `--regions-file` option of bcftools and thus also requires an `index=` file specified in the `input:`, but none was found."
+                    "You have specified a `regions` file in `input:`; this implies the `--regions-file` option of bcftools and thus also requires an `index=` file specified in the `input:`, but none was found."
                 )
             bcftools_opts += f" --regions-file {snakemake.input.regions}"
 
@@ -76,7 +77,7 @@ def get_bcftools_opts(
     ### Samples file ###
     ####################
     if parse_samples:
-        if "-S" in extra or "--samples-file" in extra:
+        if is_arg("-S", extra) or is_arg("--samples-file", extra):
             sys.exit(
                 "You have specified samples file (`-S/--samples-file`) in `params.extra`; this is automatically infered from the `samples` input file."
             )
@@ -88,7 +89,7 @@ def get_bcftools_opts(
     ### Targets file ###
     ####################
     if parse_targets:
-        if "-T" in extra or "--targets-file" in extra:
+        if is_arg("-T", extra) or is_arg("--targets-file", extra):
             sys.exit(
                 "You have specified targets file (`-T/--targets-file`) in `params.extra`; this is automatically infered from the `targets` input file."
             )
@@ -100,7 +101,7 @@ def get_bcftools_opts(
     ### Output file ###
     ###################
     if parse_output:
-        if "-o" in extra or "--output" in extra:
+        if is_arg("-o", extra) or is_arg("--output", extra):
             sys.exit(
                 "You have specified output file (`-o/--output`) in `params.extra`; this is automatically infered from the first output file."
             )
@@ -110,7 +111,7 @@ def get_bcftools_opts(
     ### Output format ###
     #####################
     if parse_output_format:
-        if "-O" in extra or "--output-type" in extra:
+        if is_arg("-O", extra) or is_arg("--output-type", extra):
             sys.exit(
                 "You have specified output format (`-O/--output-type`) in `params.extra`; this is automatically infered from output file extension."
             )
@@ -124,22 +125,20 @@ def get_bcftools_opts(
     ### Memory ###
     ##############
     if parse_memory:
-        if "-m" in extra or "--max-mem" in extra:
+        if is_arg("-m", extra) or is_arg("--max-mem", extra):
             sys.exit(
                 "You have provided `-m/--max-mem` in `params.extra`; please use `resources.mem_mb`."
             )
-        # Getting memory in megabytes, as advised in documentation.
-        if "mem_mb" in snakemake.resources.keys():
-            bcftools_opts += " --max-mem {}M".format(snakemake.resources["mem_mb"])
-        # Getting memory in gigabytes, for user convenience. Please prefer the use
-        # of mem_mb over mem_gb as advised in documentation.
-        elif "mem_gb" in snakemake.resources.keys():
-            bcftools_opts += " --max-mem {}G".format(snakemake.resources["mem_gb"])
+        bcftools_opts += " --max-mem {}M".format(get_mem(snakemake))
 
     ################
     ### Temp dir ###
     ################
-    if "-T" in extra or "--temp-dir" in extra or "--temp-prefix" in extra:
+    if (
+        is_arg("-T", extra)
+        or is_arg("--temp-dir", extra)
+        or is_arg("--temp-prefix", extra)
+    ):
         sys.exit(
             "You have provided `-T/--temp-dir/--temp-prefix` in `params.extra`; please use the `tmpdir` resource."
         )
