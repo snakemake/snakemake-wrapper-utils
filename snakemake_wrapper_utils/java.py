@@ -14,9 +14,9 @@ def get_java_opts(snakemake, java_mem_overhead_factor=0.2):
     assert 0.0 <= java_mem_overhead_factor <= 1.0
 
     # Getting memory.
-    if is_arg("-Xmx", java_opts):
+    if "-Xmx" in java_opts:
         sys.exit(java_mem_xmx_error("java_opts"))
-    if is_arg("-Xmx", extra):
+    if "-Xmx" in extra:
         sys.exit(java_mem_xmx_error("extra"))
     java_opts += " -Xmx{}M".format(
         round(get_mem(snakemake) * (1.0 - java_mem_overhead_factor))
