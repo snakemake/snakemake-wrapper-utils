@@ -1,5 +1,5 @@
 import sys
-from snakemake import get_mem, is_arg
+from snakemake_wrapper_utils.snakemake import get_mem, is_arg
 
 
 def java_mem_xmx_error(params_key):

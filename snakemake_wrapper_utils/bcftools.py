@@ -1,5 +1,5 @@
 import sys
-from snakemake import get_mem, is_arg
+from snakemake_wrapper_utils.snakemake import get_mem, is_arg
 
 
 def infer_out_format(output, uncompressed_bcf=False):

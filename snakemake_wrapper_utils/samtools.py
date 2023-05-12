@@ -1,6 +1,6 @@
 import sys
 from os import path
-from snakemake import is_arg
+from snakemake_wrapper_utils.snakemake import is_arg
 
 
 def infer_out_format(file_name):
