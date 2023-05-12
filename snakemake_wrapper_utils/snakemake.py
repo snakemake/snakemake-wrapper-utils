@@ -22,6 +22,6 @@ def get_mem(snakemake, out_unit="MiB"):
 def is_arg(arg, cmd):
     """Check command for the presence of argument"""
     if arg in cmd.replace("=", " ").split(" "):
-        return False
+        return True
 
-    return True
+    return False
