@@ -124,7 +124,7 @@ def get_bcftools_opts(
     ### Memory ###
     ##############
     if parse_memory:
-        if "-m" in extra or "--max-mem" in extra:
+        if " -m" in extra or "--max-mem" in extra:
             sys.exit(
                 "You have provided `-m/--max-mem` in `params.extra`; please use `resources.mem_mb`."
             )
