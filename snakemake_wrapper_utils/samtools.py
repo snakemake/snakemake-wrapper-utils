@@ -1,5 +1,6 @@
 import sys
 from os import path
+from snakemake_wrapper_utils.snakemake import is_arg
 
 
 def infer_out_format(file_name):
@@ -25,9 +26,9 @@ def get_samtools_opts(
     ### Threads ###
     ###############
     if parse_threads:
-        if "-@" in extra or "--threads" in extra:
+        if is_arg("-@", extra) or is_arg("--threads", extra):
             sys.exit(
-                "You have specified number of threads (`-@/--threads`) in params.extra; please use only `threads`."
+                "You have specified number of threads (`-@/--threads`) in `params.extra`; please use only `threads`."
             )
         samtools_opts += (
             ""
@@ -39,9 +40,9 @@ def get_samtools_opts(
     ### Reference file ###
     ######################
     if parse_ref:
-        if "--reference" in extra:
+        if is_arg("--reference", extra):
             sys.exit(
-                "You have specified reference file (`--reference`) in `params.extra`; this is automatically infered from the `ref` input file."
+                "You have specified reference file (`--reference`) in `params.extra`; this is automatically infered from `ref` input file."
             )
 
         if snakemake.input.get("ref"):
@@ -51,9 +52,9 @@ def get_samtools_opts(
     ### Write index ###
     ###################
     if parse_write_index:
-        if "--write-index" in extra:
+        if is_arg("--write-index", extra):
             sys.exit(
-                "You have specified writing index (`--write-index`) in params.extra; this is automatically infered from `idx` output file."
+                "You have specified writing index (`--write-index`) in `params.extra`; this is automatically infered from `idx` output file."
             )
         if idx:
             samtools_opts += " --write-index"
@@ -62,9 +63,9 @@ def get_samtools_opts(
     ### Output file ###
     ###################
     if parse_output:
-        if "-o" in extra:
+        if is_arg("-o", extra):
             sys.exit(
-                "You have specified output file (`-o`) in params.extra; this is automatically infered from the first output file."
+                "You have specified output file (`-o`) in `params.extra`; this is automatically infered from the first output file."
             )
         samtools_opts += f" -o {snakemake.output[0]}"
         if idx:
@@ -74,9 +75,9 @@ def get_samtools_opts(
     ### Output format ###
     #####################
     if parse_output_format:
-        if "-O" in extra or "--output-fmt" in extra:
+        if is_arg("-O", extra) or is_arg("--output-fmt", extra):
             sys.exit(
-                "You have specified output format (`-O/--output-fmt`) in params.extra; this is automatically infered from output file extension."
+                "You have specified output format (`-O/--output-fmt`) in `params.extra`; this is automatically infered from output file extension."
             )
         out_ext = infer_out_format(snakemake.output[0])
         samtools_opts += f" --output-fmt {out_ext}"
