@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.5.3...v0.6.0) (2023-06-21)
+
+
+### Features
+
+* allow to configure the param name parsed by get_samtools_opts ([#30](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/30)) ([84aa151](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/84aa1515bc2ea34b702490b80b40e275ddc1e4af))
+
+
+### Bug Fixes
+
+* fix bug when short arguments are contained in long arguments ([#28](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/28)) ([6b9b6db](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/6b9b6db33ed406a88f1f1a83c7e1d1f5cf77d18e))
+
 ### [0.5.3](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.5.2...v0.5.3) (2023-03-14)
 
 
