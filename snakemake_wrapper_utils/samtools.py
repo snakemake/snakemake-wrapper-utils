@@ -14,10 +14,11 @@ def get_samtools_opts(
     parse_write_index=True,
     parse_output=True,
     parse_output_format=True,
+    param_name="extra",
 ):
     """Obtain samtools_opts from output, params, and handle resource definitions in resources."""
     samtools_opts = ""
-    extra = snakemake.params.get("extra", "")
+    extra = snakemake.params.get(param_name, "")
     idx = snakemake.output.get("idx", "")
 
     ###############
