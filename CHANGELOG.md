@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.6.1](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.6.0...v0.6.1) (2023-06-29)
+
+
+### Bug Fixes
+
+* set default memory for `get_mem()` to 1/5 of 1GB ([#32](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/32)) ([999240e](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/999240ebb27adf89ed4565e54c4171a2885123ee))
+
 ## [0.6.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.5.3...v0.6.0) (2023-06-21)
 
 
