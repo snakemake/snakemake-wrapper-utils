@@ -1,7 +1,7 @@
 def get_mem(snakemake, out_unit="MiB"):
     """
     Obtain requested memory (from resources) and return in given units.
-    If no memory resources found, return 0.
+    If no memory resources found, return a value equivalent to 205 MiB.
     """
 
     # Store memory in MiB
