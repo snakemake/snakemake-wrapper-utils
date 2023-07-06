@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.6.2](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.6.1...v0.6.2) (2023-07-06)
+
+
+### Bug Fixes
+
+* bug where mem_mb is never read ([#34](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/34)) ([be7b4b2](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/be7b4b2f6ad4afb88fb01aae4152ec21967f32bf))
+
 ### [0.6.1](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.6.0...v0.6.1) (2023-06-29)
 
 
