@@ -1,12 +1,14 @@
 def get_mem(snakemake, out_unit="MiB"):
     """
     Obtain requested memory (from resources) and return in given units.
-    If no memory resources found, return 0.
+    If no memory resources found, return a value equivalent to 205 .
     """
 
     # Store memory in MiB
-    mem_mb = snakemake.resources.get("mem_gb", 0.2) * 1024
-    if not mem_mb:
+
+    if mem_mb := snakemake.resources.get("mem_gb", None):
+        mem_mb *= 1024
+    else:
         mem_mb = snakemake.resources.get("mem_mb", 205)
 
     if out_unit == "KiB":
