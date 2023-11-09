@@ -12,15 +12,15 @@ def _check_and_remove_java_arg(arg_name):
 
     if arg_name in os.environ["JDK_JAVA_OPTIONS"]:
         warnings.warn(
-            f" {arg_name} is already defined in `JDK_JAVA_OPTIONS`; Overwrite it with value from snakemake.
+            f" {arg_name} is already defined in `JDK_JAVA_OPTIONS`; Overwrite it with value from snakemake."
         )
 
-        
         import re
 
         os.environ["JDK_JAVA_OPTIONS"] = re.sub(
-            arg_name+r".*\s", "", os.environ["JDK_JAVA_OPTIONS"]
+            arg_name + r".*\s", "", os.environ["JDK_JAVA_OPTIONS"]
         )
+
 
 def get_java_opts(snakemake, java_mem_overhead_factor=0.2):
     """Obtain java_opts from params, and handle resource definitions in resources."""
@@ -28,7 +28,6 @@ def get_java_opts(snakemake, java_mem_overhead_factor=0.2):
     java_opts = snakemake.params.get("java_opts", "")
     extra = snakemake.params.get("extra", "")
     assert 0.0 <= java_mem_overhead_factor <= 1.0
-
 
     # Check if env variable exists
     if "JDK_JAVA_OPTIONS" not in os.environ:
@@ -66,7 +65,9 @@ def get_java_opts(snakemake, java_mem_overhead_factor=0.2):
     _check_and_remove_java_arg("-Djava.io.tmpdir")
 
     # Append tempdir defined in resources
-    os.environ["JDK_JAVA_OPTIONS"] += f' -Djava.io.tmpdir="{snakemake.resources.tmpdir}"'
+    os.environ[
+        "JDK_JAVA_OPTIONS"
+    ] += f' -Djava.io.tmpdir="{snakemake.resources.tmpdir}"'
 
     # Return empty string to be backwards compatible
     return ""
