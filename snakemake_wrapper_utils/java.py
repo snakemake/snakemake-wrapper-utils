@@ -1,5 +1,6 @@
-import sys
-from snakemake_wrapper_utils.snakemake import get_mem, is_arg
+import os,sys
+import warnings
+from .snakemake import get_mem, is_arg
 
 
 def java_mem_xmx_error(params_key):
@@ -22,7 +23,10 @@ def get_java_opts(snakemake, java_mem_overhead_factor=0.2):
         round(get_mem(snakemake) * (1.0 - java_mem_overhead_factor))
     )
 
-    # Getting java temp directory
+    # Setting java temp directory
+
+    # Check if it is not set multiple times
+
     if "java_temp" in snakemake.output.keys():
         sys.exit(
             "You have specified `output.java_temp`; please use `resources.tmpdir`."
@@ -35,6 +39,25 @@ def get_java_opts(snakemake, java_mem_overhead_factor=0.2):
         sys.exit(
             "You have specified `-Djava.io.tmpdir` in `params.extra`; please use `resources.tmpdir`."
         )
-    java_opts += f" -Djava.io.tmpdir={snakemake.resources.tmpdir}"
+    # Check if env variable exists
+    if "JDK_JAVA_OPTIONS" not in  os.environ:
+        os.environ["JDK_JAVA_OPTIONS"] = ""
+    else:
+        # if tempdir is already defined in env variable, warn user and remove it
+        if "-Djava.io.tmpdir" in os.environ["JDK_JAVA_OPTIONS"]:
 
+            warnings.warn(
+                " `-Djava.io.tmpdir` is already defined in `JDK_JAVA_OPTIONS`; Overwrite it with snakemake.resources.tmpdir."
+            )
+
+            # reges to remove the -Djava.io.tmpdir=.*\s
+            import re
+            os.environ["JDK_JAVA_OPTIONS"] = re.sub(
+                "-Djava.io.tmpdir=.*\s", "", os.environ["JDK_JAVA_OPTIONS"]
+            )
+        
+    # Append tempdir defined in resources
+    os.environ["JDK_JAVA_OPTIONS"] += f" -Djava.io.tmpdir={snakemake.resources.tmpdir}"
+
+    # return java_opts with memory
     return java_opts
