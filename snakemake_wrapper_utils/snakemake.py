@@ -48,7 +48,7 @@ def _get_unnamed_arguments(parameter_list):
     first_key = next(iter(keys_with_positions.items()))
     n_unnamed_arguments = first_key[1][0]
 
-    # as for input arguments either is is a string or a list of strings
+    # as for input arguments, either is a string or a list of strings
     if n_unnamed_arguments == 1:
         return parameter_list[0]
     else:
