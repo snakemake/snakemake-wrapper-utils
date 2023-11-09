@@ -27,3 +27,29 @@ def is_arg(arg, cmd):
         return True
 
     return False
+
+
+def _get_unnamed_arguments(parameter_list):
+    """
+    Get unnamed arguments of snakemake.input or snakemake.output.
+    Find it as the first key in the parameter_list.
+
+    If no unnamed arguments are found, return an empty list.
+
+    Run as:
+        _get_unnamed_arguments(snakemake.input)
+
+    """
+    keys_with_positions = parameter_list._names
+    if len(keys_with_positions) == 0:
+        # all arguments are unnamed
+        return parameter_list
+
+    first_key = next(iter(keys_with_positions.items()))
+    n_unnamed_arguments = first_key[1][0]
+
+    # as for input arguments either is is a string or a list of strings
+    if n_unnamed_arguments == 1:
+        return parameter_list[0]
+    else:
+        return [parameter_list[i] for i in range(n_unnamed_arguments)]
