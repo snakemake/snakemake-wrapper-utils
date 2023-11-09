@@ -22,7 +22,7 @@ def _check_and_remove_java_arg(arg_name):
         )
 
 
-def get_java_opts(snakemake, java_mem_overhead_factor=0.2):
+def get_java_opts(snakemake, java_mem_overhead_factor=0.2) -> str:
     """Obtain java_opts from params, and handle resource definitions in resources."""
 
     java_opts = snakemake.params.get("java_opts", "")
