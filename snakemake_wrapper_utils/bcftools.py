@@ -121,6 +121,22 @@ def get_bcftools_opts(
         )
         bcftools_opts += f" --output-type {out_format}"
 
+        #####################
+        ### Output index  ###
+        #####################
+        if len(snakemake.output) > 1 and snakemake.output[1].endswith(".tbi"):
+            if is_arg("--write-index", extra):
+                sys.exit(
+                    "You have specified --write-index in `params.extra`; this is automatically infered from second output file extension."
+            )
+            
+            if out_format not in ['z', 'b']:
+                sys.exit(
+                    f"You are trying to create an index on a uncompressed file ({snakemake.output[1]})"
+                )
+
+            bcftools_opts += " --write-index"
+
     ##############
     ### Memory ###
     ##############
