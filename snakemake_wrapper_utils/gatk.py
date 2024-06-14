@@ -1,6 +1,7 @@
 import sys
 from snakemake_wrapper_utils.snakemake import is_arg
 
+
 def get_gatk_opts(
     snakemake,
     parse_arg_file=True,
@@ -34,7 +35,6 @@ def get_gatk_opts(
                 arg_file = " --argument_file ".join(arg_file)
 
             gatk_opts += f"--argument_file {arg_file}"
-                
 
     ######################
     ### Reference file ###
@@ -54,9 +54,9 @@ def get_gatk_opts(
             sys.exit(
                 "You have specified reference sequence dictionary (`--sequence-dictionary`) in `params.extra`; this is automatically infered from `input.ref_dict`."
             )
-        ref_dict = snakemake.input.get("ref_dict", ""):
+        ref_dict = snakemake.input.get("ref_dict", "")
+        if ref_dict:
             gatk_opts += f" --sequence-dictionary {ref_dict} "
-
 
     ###########################
     ### Optional BAM output ###
@@ -97,4 +97,3 @@ def get_gatk_opts(
             gatk_opts += " --create-output-variant-md5 "
 
     return gatk_opts
-
