@@ -27,7 +27,7 @@ def is_arg(arg, cmd):
 
 
 def get_format(path):
-    """Get file format from extension, ignoring common compressions."""
+    """Get file format from extension, ignoring compression."""
     from pathlib import Path
     exts = Path(path).suffixes
     if exts[-1] in (".gz", ".bgz", ".bz2"):
