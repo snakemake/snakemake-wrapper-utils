@@ -27,6 +27,7 @@ def is_arg(arg, cmd):
 
 
 def get_format(path):
+    from pathlib import Path
     """Get file format from extension, ignoring common compressions."""
     if not path:
         raise ValueError("Path cannot be empty")
