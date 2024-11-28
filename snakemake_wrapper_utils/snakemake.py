@@ -23,7 +23,7 @@ def get_mem(snakemake, out_unit="MiB"):
 
 def is_arg(arg, cmd):
     """Check command for the presence of argument."""
-    return arg in cmd.replace("=", " ").split(" "):
+    return arg in cmd.replace("=", " ").split(" ")
 
 
 def get_format(path):
