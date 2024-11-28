@@ -12,6 +12,7 @@ def get_samtools_opts(
     snakemake,
     parse_threads=True,
     parse_ref=True,
+    parse_regions=True,
     parse_write_index=True,
     parse_output=True,
     parse_output_format=True,
@@ -47,6 +48,18 @@ def get_samtools_opts(
 
         if snakemake.input.get("ref"):
             samtools_opts += f" --reference {snakemake.input.ref}"
+
+    ####################
+    ### Regions file ###
+    ####################
+    if parse_regions:
+        if is_arg("--region-file", extra) or is_arg("--regions-file", extra):
+            sys.exit(
+                "You have specified regions file (`--regions-file`) in `params.extra`; this is automatically infered from `regions` input file."
+            )
+
+        if snakemake.input.get("regions"):
+            samtools_opts += f" --regions-file {snakemake.input.regions}"
 
     ###################
     ### Write index ###
