@@ -47,7 +47,7 @@ def get_gatk_opts(
             )
         ref = snakemake.input.get("ref")
         if ref:
-            gatk_opts += f" --reference {ref} "
+            gatk_opts += f" --reference {ref}"
 
     if parse_ref_dict:
         if is_arg("--sequence-dictionary", extra):
