@@ -67,7 +67,7 @@ def get_gatk_opts(
                 "You have specified bam index creation (`-OBI,--create-output-bam-index`) in `params.extra`; this is automatically inferred from `output.bam_bai`."
             )
         if snakemake.output.get("bam_bai"):
-            gatk_opts += " --create-output-bam-index "
+            gatk_opts += " --create-output-bam-index"
 
     if parse_bam_md5:
         if is_arg("--create-output-bam-md5", extra) or is_arg("-OBM", extra):
