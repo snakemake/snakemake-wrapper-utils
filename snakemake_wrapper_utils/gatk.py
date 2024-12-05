@@ -75,7 +75,7 @@ def get_gatk_opts(
                 "You have specified bam MD5-sum creation (`-OBM,--create-output-bam-md5`) in `params.extra`; this is automatically inferred from `output.bam_md5`."
             )
         if snakemake.output.get("bam_md5"):
-            gatk_opts += " --create-output-bam-md5 "
+            gatk_opts += " --create-output-bam-md5"
 
     ###########################
     ### Optional VCF output ###
