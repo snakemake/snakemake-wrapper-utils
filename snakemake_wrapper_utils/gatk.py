@@ -4,13 +4,13 @@ from snakemake_wrapper_utils.snakemake import is_arg
 
 def get_gatk_opts(
     snakemake,
-    parse_arg_file=True,
-    parse_bam_index=True,
-    parse_bam_md5=True,
-    parse_vcf_index=True,
-    parse_vcf_md5=True,
-    parse_ref=True,
-    parse_ref_dict=True,
+    parse_arg_file=False,
+    parse_bam_index=False,
+    parse_bam_md5=False,
+    parse_vcf_index=False,
+    parse_vcf_md5=False,
+    parse_ref=False,
+    parse_ref_dict=False,
     param_name="extra",
 ):
     """Obtain gatk_opts from input, output, params"""
