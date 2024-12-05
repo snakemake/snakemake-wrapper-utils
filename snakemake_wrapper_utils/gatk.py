@@ -25,7 +25,7 @@ def get_gatk_opts(
     if parse_arg_file:
         if is_arg("--arguments_file", extra):
             sys.exit(
-                "You have specified an argument file (`--argument_file`) in `params.extra; this is automatically infered from `input.arg_file`."
+                "You have specified an argument file (`--argument_file`) in `params.extra`; this is automatically infered from `input.arg_file`."
             )
 
         # Multiple argument files can be provided. Order matters.
