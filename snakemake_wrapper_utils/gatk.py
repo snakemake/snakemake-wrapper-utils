@@ -52,11 +52,11 @@ def get_gatk_opts(
     if parse_ref_dict:
         if is_arg("--sequence-dictionary", extra):
             sys.exit(
-                "You have specified reference sequence dictionary (`--sequence-dictionary`) in `params.extra`; this is automatically inferred from `input.ref_dict`."
+                "You have specified reference sequence dictionary (`--sequence-dictionary`) in `params.extra`; this is automatically inferred from `input.dict`."
             )
-        ref_dict = snakemake.input.get("ref_dict", "")
-        if ref_dict:
-            gatk_opts += f" --sequence-dictionary {ref_dict} "
+        dict = snakemake.input.get("dict", "")
+        if dict:
+            gatk_opts += f" --sequence-dictionary {dict}"
 
     ###########################
     ### Optional BAM output ###
