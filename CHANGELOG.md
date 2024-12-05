@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.6.2...v0.7.0) (2024-12-05)
+
+
+### Features
+
+* GATK utils for common IO files ([#39](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/39)) ([4ba82aa](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/4ba82aa2ea3c2f675f94b9d1a09f7ab0b33c3155))
+
 ### [0.6.2](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.6.1...v0.6.2) (2023-07-06)
 
 
