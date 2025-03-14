@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.7.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.6.2...v0.7.0) (2025-03-10)
+
+
+### Features
+
+* GATK utils for common IO files ([#39](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/39)) ([4ba82aa](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/4ba82aa2ea3c2f675f94b9d1a09f7ab0b33c3155))
+* parse file format from extension (ignore compression) ([#41](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/41)) ([b0820f2](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/b0820f24169d457fa2b1b7a16168b509dc787720))
+* parse samtools regions ([#40](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/40)) ([2fa70b8](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/2fa70b89b529e3d0b0a1fee38c4479b634342b68))
+
 ### [0.6.2](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.6.1...v0.6.2) (2023-07-06)
 
 
