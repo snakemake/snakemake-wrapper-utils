@@ -34,7 +34,6 @@ def get_samtools_opts(
 
         if snakemake.threads > 1:
             samtools_opts += f" --threads {snakemake.threads - 1}"
-        )
 
     ######################
     ### Reference file ###
