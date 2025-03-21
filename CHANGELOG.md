@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.7.1](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.7.0...v0.7.1) (2025-03-21)
+
+
+### Bug Fixes
+
+* typo on samtools regions file ([#43](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/43)) ([790f5fa](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/790f5faace2eaa7541d122170c2a4561fb88c810))
+
 ## [0.7.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.6.2...v0.7.0) (2025-03-10)
 
 
