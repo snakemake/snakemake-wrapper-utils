@@ -31,10 +31,9 @@ def get_samtools_opts(
             sys.exit(
                 "You have specified number of threads (`-@/--threads`) in `params.extra`; this is automatically infered from `threads`."
             )
-        samtools_opts += (
-            ""
-            if snakemake.threads <= 1
-            else " --threads {}".format(snakemake.threads - 1)
+
+        if snakemake.threads > 1:
+            samtools_opts += f" --threads {snakemake.threads - 1}"
         )
 
     ######################
