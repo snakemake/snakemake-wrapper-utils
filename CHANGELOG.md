@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.7.2](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.7.1...v0.7.2) (2025-03-21)
+
+
+### Bug Fixes
+
+* delete missing parenthesis ([#45](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/45)) ([5d3bbb1](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/5d3bbb155db575eb8818a399046089b541738de7))
+
 ### [0.7.1](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.7.0...v0.7.1) (2025-03-21)
 
 
