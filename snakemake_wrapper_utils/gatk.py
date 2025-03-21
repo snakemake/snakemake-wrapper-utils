@@ -34,7 +34,7 @@ def get_gatk_opts(
             if isinstance(arg_file, list):
                 arg_file = " --argument_file ".join(arg_file)
 
-            gatk_opts += f"--argument_file {arg_file}"
+            gatk_opts += f" --argument_file {arg_file}"
 
     ######################
     ### Reference file ###
