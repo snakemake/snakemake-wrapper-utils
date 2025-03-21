@@ -55,11 +55,11 @@ def get_samtools_opts(
     if parse_regions:
         if is_arg("--region-file", extra) or is_arg("--regions-file", extra):
             sys.exit(
-                "You have specified regions file (`--regions-file`) in `params.extra`; this is automatically infered from `regions` input file."
+                "You have specified regions file (`--region[s]-file`) in `params.extra`; this is automatically infered from `regions` input file."
             )
 
         if snakemake.input.get("regions"):
-            samtools_opts += f" --regions-file {snakemake.input.regions}"
+            samtools_opts += f" --region-file {snakemake.input.regions}"
 
     ###################
     ### Write index ###
