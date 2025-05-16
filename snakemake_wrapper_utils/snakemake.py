@@ -1,4 +1,4 @@
-def get_mem(snakemake, out_unit="MiB"):
+def get_mem(snakemake, out_unit="MiB", mem_overhead_factor=0):
     """
     Obtain requested memory (from resources) and return in given units.
     If no memory resources found, return a value equivalent to 205.
@@ -12,7 +12,6 @@ def get_mem(snakemake, out_unit="MiB"):
         mem_mb = snakemake.resources.get("mem_mb", 205)
 
     # Apply memory overhead
-    mem_overhead_factor = snakemake.params.get("mem_overhead_factor", 0)
     assert 0 <= mem_overhead_factor < 1, f"mem_overhead_factor must be between 0 and 1, got {mem_overhead_factor}"
     mem_mb *= 1 - mem_overhead_factor
 
