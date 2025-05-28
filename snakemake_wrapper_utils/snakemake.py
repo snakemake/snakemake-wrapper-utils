@@ -28,6 +28,7 @@ def is_arg(arg, cmd):
 
 def get_format(path):
     from pathlib import Path
+
     """Get file format from extension, ignoring common compressions."""
     if not path:
         raise ValueError("Path cannot be empty")
@@ -41,7 +42,8 @@ def get_format(path):
 
     if ext in (".fq", ".fastq"):
         return "fastq"
-    elif ext in (".fa", ".fas", ".fna", ".fasta"):
+    elif ext in (".fa", ".fas", ".fna", ".ffn", ".faa", ".fasta", ".mpfa", ".frn"):
+        # https://en.wikipedia.org/wiki/FASTA_format
         return "fasta"
     else:
         return ext.lstrip(".").lower()
