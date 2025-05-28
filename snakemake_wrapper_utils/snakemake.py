@@ -34,8 +34,8 @@ def get_format(path):
         raise ValueError("Path cannot be empty")
     exts = Path(path).suffixes
     if not exts:
-        raise ValueError("Path must have an extension")
-    if exts[-1] in (".gz", ".bgz", ".bz2"):
+        raise ValueError("Path must have an extension.")
+    if exts[-1] in (".gz", ".bgz", ".bz2", ".xz"):
         ext = exts[-2]
     else:
         ext = exts[-1]
