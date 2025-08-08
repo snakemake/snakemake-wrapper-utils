@@ -29,7 +29,7 @@ def get_samtools_opts(
     if parse_threads:
         if is_arg("-@", extra) or is_arg("--threads", extra):
             sys.exit(
-                "You have specified number of threads (`-@/--threads`) in `params.extra`; this is automatically infered from `threads`."
+                "You have specified number of threads (`-@/--threads`) in `params.extra`; please use `threads`."
             )
 
         if snakemake.threads > 1:
