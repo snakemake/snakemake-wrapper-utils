@@ -28,6 +28,7 @@ def is_arg(arg, cmd):
 
 def get_format(path):
     from pathlib import Path
+
     """Get file format from extension, ignoring common compressions."""
     if not path:
         raise ValueError("Path cannot be empty")
@@ -45,3 +46,20 @@ def get_format(path):
         return "fasta"
     else:
         return ext.lstrip(".").lower()
+
+
+def mv_temp(snakemake, mapping, cmd="mv --verbose"):
+
+    import contextlib
+
+    with open(snakemake.log[0], "a", buffering=1) as log:
+        with contextlib.redirect_stdout(log):
+            with contextlib.redirect_stderr(log):
+                for out_tag, tool_out_name in mapping.items():
+                    out_name = snakemake.output.get(out_tag, "")
+                    if out_name:
+                        shell(f"{cmd} {tool_out_name} {out_name}")
+                    else:
+                        raise KeyError(
+                            f"The wrapper requires the named output: {out_tag}. Please provide this named output."
+                        )
