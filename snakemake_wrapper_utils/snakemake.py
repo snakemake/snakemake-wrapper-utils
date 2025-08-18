@@ -50,11 +50,15 @@ def get_format(path):
 
 def move_files(snakemake, mapping, cmd="mv --verbose"):
     """
-    Given the dict:
-    mapping = {"tsv": "/tmp/tmp98723489/out.tsv,}
+    Move file(s) produced by the tool to the named Snakemake outputs.
 
-    Move file /tmp/tmp98723489/results/out.tsv to snakemake.output.tsv,
-    and redirect stdout and stderr to snakemake.log.
+    mapping must be a dict of {out_tag: source_path}.
+
+    Example:
+        mapping = {"tsv": "/tmp/tmp98723489/results/out.tsv"}
+
+    This moves /tmp/tmp98723489/results/out.tsv to snakemake.output["tsv"],
+    redirecting stdout/stderr to snakemake.log if defined.
     """
 
     import contextlib
