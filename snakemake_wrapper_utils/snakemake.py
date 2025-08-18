@@ -62,6 +62,7 @@ def move_files(snakemake, mapping, cmd="mv --verbose"):
     """
 
     import contextlib
+    from snakemake.shell import shell
 
     with open(snakemake.log[0], "a", buffering=1) as log:
         with contextlib.redirect_stdout(log):
@@ -69,7 +70,7 @@ def move_files(snakemake, mapping, cmd="mv --verbose"):
                 for out_tag, tool_out_name in mapping.items():
                     out_name = snakemake.output.get(out_tag, "")
                     if out_name:
-                        shell(f"{cmd} {tool_out_name} {out_name}")
+                        shell("{cmd} {tool_out_name:q} {out_name:q}")
                     else:
                         raise KeyError(
                             f"The wrapper requires the named output: {out_tag}. Please provide this named output."
