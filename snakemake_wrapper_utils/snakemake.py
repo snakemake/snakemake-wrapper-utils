@@ -58,20 +58,18 @@ def move_files(snakemake, mapping, cmd="mv --verbose"):
         mapping = {"tsv": "/tmp/tmp98723489/results/out.tsv"}
 
     This moves /tmp/tmp98723489/results/out.tsv to snakemake.output["tsv"],
-    redirecting stdout/stderr to snakemake.log if defined.
+    redirecting stdout/stderr to snakemake.log.
     """
 
-    import contextlib
     from snakemake.shell import shell
 
-    with open(snakemake.log[0], "a", buffering=1) as log:
-        with contextlib.redirect_stdout(log):
-            with contextlib.redirect_stderr(log):
-                for out_tag, tool_out_name in mapping.items():
-                    out_name = snakemake.output.get(out_tag, "")
-                    if out_name:
-                        shell("{cmd} {tool_out_name:q} {out_name:q}")
-                    else:
-                        raise KeyError(
-                            f"The wrapper requires the named output: {out_tag}. Please provide this named output."
-                        )
+    log = snakemake.log_fmt_shell(stdout=True, stderr=True, append=True)
+
+    for out_tag, tool_out_name in mapping.items():
+        out_name = snakemake.output.get(out_tag, "")
+        if out_name:
+            shell("{cmd} {tool_out_name:q} {out_name:q} {log}")
+        else:
+            raise KeyError(
+                f"The wrapper requires the named output: {out_tag}. Please provide this named output."
+            )
