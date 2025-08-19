@@ -53,7 +53,7 @@ def get_format(path):
         return ext
 
 
-def move_files(snakemake, mapping, cmd="mv --verbose"):
+def move_files(snakemake, mapping, cmd="mv -v"):
     """
     Move file(s) produced by the tool to the named Snakemake outputs.
 
