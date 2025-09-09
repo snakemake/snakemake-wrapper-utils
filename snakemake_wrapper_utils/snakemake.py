@@ -44,13 +44,12 @@ def get_format(path):
     else:
         ext = exts[-1]
 
-    ext = ext.lstrip(".")
-    if ext in ("fq", "fastq"):
+    if ext in (".fq", ".fastq"):
         return "fastq"
-    elif ext in ("fa", "fas", "fna", "fasta"):
+    elif ext in (".fa", ".fas", ".fna", ".fasta"):
         return "fasta"
     else:
-        return ext
+        return ext.lstrip(".")
 
 
 def move_files(snakemake, mapping, cmd="mv -v"):
@@ -66,15 +65,13 @@ def move_files(snakemake, mapping, cmd="mv -v"):
     redirecting stdout/stderr to snakemake.log.
     """
 
-    from snakemake.shell import shell
-
-    log = snakemake.log_fmt_shell(stdout=True, stderr=True, append=True)
-
+    cmds = list()
     for out_tag, tool_out_name in mapping.items():
         out_name = snakemake.output.get(out_tag, "")
-        if out_name:
-            shell("{cmd} {tool_out_name:q} {out_name:q} {log}")
-        else:
+        if not out_name:
             raise KeyError(
                 f"The wrapper requires the named output: {out_tag}. Please provide this named output."
             )
+        cmds.append("{cmd} {tool_out_name:q} {out_name:q}")
+
+    return cmds
