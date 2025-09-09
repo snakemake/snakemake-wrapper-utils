@@ -62,15 +62,13 @@ def move_files(snakemake, mapping, cmd="mv -v"):
     Example:
         mapping = {"tsv": "/tmp/tmp98723489/results/out.tsv"}
 
-        # In the wrapper, one shell per move operation, logging needs to append:
-        #
-        # for file in move_files(snakemake, mapping):
-        #     shell("{file} {log}")
-        #
+        # In the wrapper, one shell per move operation:
+        for file in move_files(snakemake, mapping):
+            shell("{file} {log}")
+
         # In the wrapper, one shell command for all move statements:
-        #
-        # move_commands = "; ".join(move_files(snakemake, mapping))
-        # shell("( {move_commands} ) {log}")
+        move_cmds = "; ".join(move_files(snakemake, mapping))
+        shell("( {move_cmds} ) {log}")
     """
 
     cmds = []
