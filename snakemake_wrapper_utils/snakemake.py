@@ -68,7 +68,7 @@ def move_files(snakemake, mapping, cmd="mv -v"):
 
         # In the wrapper, one shell command for all move statements:
         move_cmds = "; ".join(move_files(snakemake, mapping))
-        shell("( {move_cmds} ) {log}")
+        shell("(main_wrapper_cmd [...]; {move_cmds}) {log}")
     """
 
     cmds = []
