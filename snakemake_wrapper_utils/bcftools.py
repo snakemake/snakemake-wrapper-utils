@@ -140,7 +140,7 @@ def get_bcftools_opts(
         or is_arg("--temp-prefix", extra)
     ):
         sys.exit(
-            "You have provided `-T/--temp-dir/--temp-prefix` in `params.extra`; please use the `tmpdir` resource."
+            "You have provided `-T/--temp-dir/--temp-prefix` in `params.extra`; please use `resources.tmpdir`."
         )
 
     return bcftools_opts

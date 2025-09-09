@@ -35,20 +35,57 @@ def is_arg(arg, cmd):
 
 def get_format(path):
     from pathlib import Path
+
     """Get file format from extension, ignoring common compressions."""
     if not path:
         raise ValueError("Path cannot be empty")
-    exts = Path(path).suffixes
+    exts = [s.lower() for s in Path(path).suffixes]
     if not exts:
-        raise ValueError("Path must have an extension")
-    if exts[-1] in (".gz", ".bgz", ".bz2"):
+        raise ValueError("Path must have an extension.")
+    if exts[-1] in (".gz", ".bgz", ".bz2", ".xz"):
+        if len(exts) < 2:
+            raise ValueError(
+                "Compressed path must include a base extension before the compression suffix, e.g., '.vcf.gz'."
+            )
         ext = exts[-2]
     else:
         ext = exts[-1]
 
     if ext in (".fq", ".fastq"):
         return "fastq"
-    elif ext in (".fa", ".fas", ".fna", ".fasta"):
+    elif ext in (".fa", ".fas", ".fna", ".ffn", ".faa", ".fasta", ".mpfa", ".frn"):
+        # https://en.wikipedia.org/wiki/FASTA_format
         return "fasta"
     else:
-        return ext.lstrip(".").lower()
+        return ext.lstrip(".")
+
+
+def move_files(snakemake, mapping, cmd="mv -v"):
+    """
+    Build shell move commands for relocating tool-produced files to named outputs.
+
+    mapping must be a dict of {out_tag: source_path}. The out_tag must resolve
+    to a single file path in snakemake.output.
+
+    Example:
+        mapping = {"tsv": "/tmp/tmp98723489/results/out.tsv"}
+
+        # In the wrapper, one shell per move operation:
+        for file in move_files(snakemake, mapping):
+            shell("{file} {log}")
+
+        # In the wrapper, one shell command for all move statements:
+        move_cmds = "; ".join(move_files(snakemake, mapping))
+        shell("(main_wrapper_cmd [...]; {move_cmds}) {log}")
+    """
+
+    cmds = []
+    for out_tag, tool_out_name in mapping.items():
+        out_name = snakemake.output.get(out_tag, "")
+        if not out_name:
+            raise KeyError(
+                f"The wrapper requires the named output: {out_tag}. Please provide this named output."
+            )
+        cmds.append(f"{cmd} '{tool_out_name}' '{out_name}'")
+
+    return cmds
