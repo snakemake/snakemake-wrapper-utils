@@ -54,15 +54,15 @@ def get_format(path):
 
 def move_files(snakemake, mapping, cmd="mv -v"):
     """
-    Move file(s) produced by the tool to the named Snakemake outputs.
+    Build shell move commands for relocating tool-produced files to named outputs.
 
-    mapping must be a dict of {out_tag: source_path}.
+    mapping must be a dict of {out_tag: source_path}. The out_tag must resolve
+    to a single file path in snakemake.output.
 
     Example:
         mapping = {"tsv": "/tmp/tmp98723489/results/out.tsv"}
-
-    This moves /tmp/tmp98723489/results/out.tsv to snakemake.output["tsv"],
-    redirecting stdout/stderr to snakemake.log.
+        # In the wrapper:
+        # shell(f"( set -euo pipefail; {move_files(snakemake, mapping)} ) {snakemake.log_fmt_shell(stdout=True, stderr=True)}")
     """
 
     cmds = list()
