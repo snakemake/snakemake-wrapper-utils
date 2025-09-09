@@ -34,7 +34,7 @@ def get_format(path):
         raise ValueError("Path cannot be empty")
     exts = [s.lower() for s in Path(path).suffixes]
     if not exts:
-        raise ValueError("Path must have an extension")
+        raise ValueError("Path must have an extension.")
     if exts[-1] in (".gz", ".bgz", ".bz2", ".xz"):
         if len(exts) < 2:
             raise ValueError(
@@ -46,7 +46,8 @@ def get_format(path):
 
     if ext in (".fq", ".fastq"):
         return "fastq"
-    elif ext in (".fa", ".fas", ".fna", ".fasta"):
+    elif ext in (".fa", ".fas", ".fna", ".ffn", ".faa", ".fasta", ".mpfa", ".frn"):
+        # https://en.wikipedia.org/wiki/FASTA_format
         return "fasta"
     else:
         return ext.lstrip(".")
