@@ -62,16 +62,17 @@ def move_files(snakemake, mapping, cmd="mv -v"):
     Example:
         mapping = {"tsv": "/tmp/tmp98723489/results/out.tsv"}
         # In the wrapper:
-        # shell(f"( set -euo pipefail; {move_files(snakemake, mapping)} ) {snakemake.log_fmt_shell(stdout=True, stderr=True)}")
+        # for file in move_files(snakemake, mapping):
+        #     shell("{file} {log}")
     """
 
-    cmds = list()
+    cmds = []
     for out_tag, tool_out_name in mapping.items():
         out_name = snakemake.output.get(out_tag, "")
         if not out_name:
             raise KeyError(
                 f"The wrapper requires the named output: {out_tag}. Please provide this named output."
             )
-        cmds.append("{cmd} {tool_out_name:q} {out_name:q}")
+        cmds.append(f"{cmd} '{tool_out_name}' '{out_name}'")
 
     return cmds
