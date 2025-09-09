@@ -3,7 +3,7 @@ from snakemake_wrapper_utils.snakemake import get_mem, is_arg
 
 
 def java_mem_xmx_error(params_key):
-    return f"You have provided `-Xmx` in params.{params_key}. For Java memory specifications, please only use resources.mem_mb (for total memory reserved for the rule) and `params.java_mem_overhead_mb` (to specify any required non-heap overhead that needs to be set aside before determining the `-Xmx` value)."
+    return f"You have specified memory under `resources` and provided `-Xmx` in params.{params_key}. For Java memory specifications, please use only `resources.mem_mb` (for total memory reserved for the rule) and `params.java_mem_overhead_mb` (to specify any required non-heap overhead that needs to be set aside before determining the `-Xmx` value)."
 
 
 def get_java_opts(snakemake, java_mem_overhead_factor=0.2):
