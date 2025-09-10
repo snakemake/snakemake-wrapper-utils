@@ -8,7 +8,6 @@ def java_mem_xmx_error(params_key):
 
 def get_java_opts(snakemake, java_mem_overhead_factor=0.2):
     """Obtain java_opts from params, and handle resource definitions in resources."""
-    import math
 
     java_opts = snakemake.params.get("java_opts", "")
     extra = snakemake.params.get("extra", "")
@@ -20,7 +19,7 @@ def get_java_opts(snakemake, java_mem_overhead_factor=0.2):
     if "-Xmx" in extra:
         sys.exit(java_mem_xmx_error("extra"))
     java_opts += " -Xmx{}M".format(
-        math.floor(get_mem(snakemake) * (1.0 - java_mem_overhead_factor))
+        get_mem(snakemake, out_unit="MiB", java_mem_overhead_factor)
     )
 
     # Getting java temp directory
