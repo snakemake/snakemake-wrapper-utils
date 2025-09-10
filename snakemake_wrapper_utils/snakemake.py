@@ -3,6 +3,7 @@ def get_mem(snakemake, out_unit="MiB", mem_overhead_factor=0):
     Obtain requested memory (from resources) and return in given units.
     If no memory resources found, return a value equivalent to 205 MiB.
     """
+    import math
 
     # Store memory in MiB
 
@@ -13,7 +14,7 @@ def get_mem(snakemake, out_unit="MiB", mem_overhead_factor=0):
 
     # Apply memory overhead
     assert 0 <= mem_overhead_factor < 1, f"mem_overhead_factor must be between 0 and 1, got {mem_overhead_factor}"
-    mem_mb *= 1 - mem_overhead_factor
+    mem_mb = math.floor(mem_mb * (1 - mem_overhead_factor))
 
     # Return memory
     if out_unit == "B":
