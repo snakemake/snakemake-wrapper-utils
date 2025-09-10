@@ -19,7 +19,7 @@ def get_java_opts(snakemake, java_mem_overhead_factor=0.2):
     if "-Xmx" in extra:
         sys.exit(java_mem_xmx_error("extra"))
     java_opts += " -Xmx{}M".format(
-        get_mem(snakemake, out_unit="MiB", java_mem_overhead_factor)
+        get_mem(snakemake, out_unit="MiB", mem_overhead_factor=java_mem_overhead_factor)
     )
 
     # Getting java temp directory
