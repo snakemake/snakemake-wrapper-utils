@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.8.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.7.2...v0.8.0) (2025-09-11)
+
+
+### Features
+
+* Mem overhead ([#47](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/47)) ([fdce4cd](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/fdce4cd716cabe625f99006da86b890aeb407bd5))
+* move temp output to final destinations ([#51](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/51)) ([fd1df7e](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/fd1df7e3a43f70bb15e855e70656e23819029304))
+
+
+### Bug Fixes
+
+* Add more FASTA extensions ([#49](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/49)) ([2cce124](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/2cce1247feee4a1468f138abfde6f86c04f3a2ff))
+
 ### [0.7.2](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.7.1...v0.7.2) (2025-03-21)
 
 
