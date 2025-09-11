@@ -1,8 +1,9 @@
-def get_mem(snakemake, out_unit="MiB"):
+def get_mem(snakemake, out_unit="MiB", mem_overhead_factor=0):
     """
     Obtain requested memory (from resources) and return in given units.
-    If no memory resources found, return a value equivalent to 205.
+    If no memory resources found, return a value equivalent to 205 MiB.
     """
+    import math
 
     # Store memory in MiB
 
@@ -11,14 +12,21 @@ def get_mem(snakemake, out_unit="MiB"):
     else:
         mem_mb = snakemake.resources.get("mem_mb", 205)
 
-    if out_unit == "KiB":
+    # Apply memory overhead
+    if not (0 <= mem_overhead_factor < 1):
+        raise ValueError(f"mem_overhead_factor must be >= 0 and < 1, got {mem_overhead_factor}")
+    mem_mb = math.floor(mem_mb * (1 - mem_overhead_factor))
+    # Return memory
+    if out_unit == "B":
+        return mem_mb * 1024 * 1024
+    elif out_unit == "KiB":
         return mem_mb * 1024
     elif out_unit == "MiB":
         return mem_mb
     elif out_unit == "GiB":
         return mem_mb / 1024
     else:
-        raise ValueError("invalid output unit. Only KiB, MiB and GiB supported.")
+        raise ValueError("invalid output unit. Only B, KiB, MiB and GiB supported.")
 
 
 def is_arg(arg, cmd):
