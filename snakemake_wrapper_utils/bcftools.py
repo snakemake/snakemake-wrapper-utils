@@ -148,7 +148,10 @@ def get_bcftools_opts(
 
 def read_write_variants(snakemake, variant_key_name="call"):
     """Obtain command lines to read gzipped VCF or BCF files and path to named pipes"""
-    in_call = snakemake.input.get(variant_key_name)
+    if isinstance(variant_key_name, int):
+        in_call = snakemake.input[0]
+    else:
+        in_call = snakemake.input.get(variant_key_name)
     min_threads = 1
     if not in_call:
         raise KeyError(
@@ -158,7 +161,7 @@ def read_write_variants(snakemake, variant_key_name="call"):
     command_lines = ""
     input_file_name = in_call
     if str(in_call).endswith((".gz", ".bcf")):
-        input_file_name = "snakemake_wrapper_utils_read_variants.vcf"
+        input_file_name = f"{in_call}.snakemake_wrapper_utils_read_variants.vcf"
         min_threads += 1
 
         # Case there is a comparison:
@@ -175,23 +178,25 @@ def read_write_variants(snakemake, variant_key_name="call"):
             f"bcftools view {bcftools_opts} {in_call} > {input_file_name} & "
         )
 
-    out_call = snakemake.output.get(variant_key_name)
+    if isinstance(variant_key_name, int):
+        out_call = snakemake.output[0]
+    else:
+        out_call = snakemake.output.get(variant_key_name)
     output_file_name = out_call
     if not out_call:
         raise KeyError(
             f"Could not find {variant_key_name} within available snakemake output keys"
         )
 
-
     if str(out_call).endswith((".gz", ".bcf")):
-        output_file_name = "snakemake_wrapper_utils_write_variants.vcf"
+        output_file_name = f"{out_call}.snakemake_wrapper_utils_write_variants.vcf"
         min_threads += 1
 
         # This time, we include threading and output formats
         bcftools_opts = get_bcftools_opts(snakemake)
         command_lines += str(
             f"mkfifo {output_file_name} ; "
-            f"bcftools view {bcftools_opts} < {output_file_name} & "
+            f"bcftools view {bcftools_opts} {output_file_name} & "
         )
 
     if snakemake.threads < min_threads:
