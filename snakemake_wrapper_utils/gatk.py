@@ -25,16 +25,16 @@ def get_gatk_opts(
     if parse_arg_file:
         if is_arg("--arguments_file", extra):
             sys.exit(
-                "You have specified an argument file (`--argument_file`) in `params.extra`; this is automatically inferred from `input.arg_file`."
+                "You have specified an argument file (`--arguments_file`) in `params.extra`; this is automatically inferred from `input.arg_file`."
             )
 
         # Multiple argument files can be provided. Order matters.
         arg_file = snakemake.input.get("arg_file", "")
         if arg_file:
             if isinstance(arg_file, list):
-                arg_file = " --argument_file ".join(arg_file)
+                arg_file = " --arguments_file ".join(arg_file)
 
-            gatk_opts += f" --argument_file {arg_file}"
+            gatk_opts += f" --arguments_file {arg_file}"
 
     ######################
     ### Reference file ###
