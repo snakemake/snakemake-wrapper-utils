@@ -149,7 +149,7 @@ def get_bcftools_opts(
 def read_write_variants(snakemake, variant_key_name="call"):
     """Obtain command lines to read gzipped VCF or BCF files and path to named pipes"""
     in_call = snakemake.input.get(variant_key_name)
-    min_threads: 1
+    min_threads = 1
     if not in_call:
         raise KeyError(
             f"Could not find {variant_key_name} within available snakemake input keys"
@@ -177,6 +177,12 @@ def read_write_variants(snakemake, variant_key_name="call"):
 
     out_call = snakemake.output.get(variant_key_name)
     output_file_name = out_call
+    if not out_call:
+        raise KeyError(
+            f"Could not find {variant_key_name} within available snakemake output keys"
+        )
+
+
     if str(out_call).endswith((".gz", ".bcf")):
         output_file_name = "snakemake_wrapper_utils_write_variants.vcf"
         min_threads += 1
