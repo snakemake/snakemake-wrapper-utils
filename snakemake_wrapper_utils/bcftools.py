@@ -179,7 +179,7 @@ def read_write_variants(snakemake, variant_key_name="call"):
         )
 
     if isinstance(variant_key_name, int):
-        out_call = snakemake.output[0]
+        out_call = snakemake.output[variant_key_name]
     else:
         out_call = snakemake.output.get(variant_key_name)
     output_file_name = out_call
