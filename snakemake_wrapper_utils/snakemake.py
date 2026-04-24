@@ -14,7 +14,9 @@ def get_mem(snakemake, out_unit="MiB", mem_overhead_factor=0):
 
     # Apply memory overhead
     if not (0 <= mem_overhead_factor < 1):
-        raise ValueError(f"mem_overhead_factor must be >= 0 and < 1, got {mem_overhead_factor}")
+        raise ValueError(
+            f"mem_overhead_factor must be >= 0 and < 1, got {mem_overhead_factor}"
+        )
     mem_mb = math.floor(mem_mb * (1 - mem_overhead_factor))
     # Return memory
     if out_unit == "B":
@@ -47,31 +49,70 @@ def is_arg(arg, cmd):
     return get_arg(arg, cmd) is not None
 
 
-def get_format(path):
+def get_format(path, ignore_compression=True):
     from pathlib import Path
 
-    """Get file format from extension, ignoring common compressions."""
+    """Get file format from extension, ignoring common compressions on user request"""
     if not path:
         raise ValueError("Path cannot be empty")
     exts = [s.lower() for s in Path(path).suffixes]
+
     if not exts:
         raise ValueError("Path must have an extension.")
-    if exts[-1] in (".gz", ".bgz", ".bz2", ".xz"):
-        if len(exts) < 2:
-            raise ValueError(
-                "Compressed path must include a base extension before the compression suffix, e.g., '.vcf.gz'."
-            )
-        ext = exts[-2]
-    else:
-        ext = exts[-1]
 
-    if ext in (".fq", ".fastq"):
-        return "fastq"
-    elif ext in (".fa", ".fas", ".fna", ".ffn", ".faa", ".fasta", ".mpfa", ".frn"):
+    compression_fmt = {
+        # https://en.wikipedia.org/wiki/Gzip
+        ".gz": "gzip",
+        ".gzip": "gzip",
+        ".tgz": "gzip",
+        # https://en.wikipedia.org/wiki/BGZF
+        ".bgz": "bgzip",
+        ".bgzip": "bgzip",
+        ".bz2": "bzip2",
+        # https://en.wikipedia.org/wiki/XZ_Utils
+        ".xz": "lzma",
+        ".lzma": "lzma",
+        # https://en.wikipedia.org/wiki/List_of_file_formats
+        ".mgz": "mgzip",
+        ".zz": "zlib",
+        ".Z": "zlib",
+        # https://github.com/sstadick/crabz/blob/91e58e3bdaaaf9838c14b5734947d82f2453be26/src/main.rs#L24
+        ".snappy": "snap",
+        ".snap": "snap",
+        ".sz": "snap",
+        ".deflat": "deflate",
+        ".defalte": "defalte",
+    }
+    bioinfo_fmt = {
         # https://en.wikipedia.org/wiki/FASTA_format
-        return "fasta"
+        ".fa": "fasta",
+        ".fas": "fasta",
+        ".fna": "fasta",
+        ".ffn": "fasta",
+        ".faa": "fasta",
+        ".fasta": "fasta",
+        ".mpfa": "fasta",
+        ".frn": "fasta",
+        # https://en.wikipedia.org/wiki/FASTQ_format#File_extension
+        ".fq": "fastq",
+        ".fastq": "fastq",
+    }
+
+    if ignore_compression:
+        if exts[-1] in compression_fmt.keys():
+            if len(exts) < 2:
+                raise ValueError(
+                    "Compressed path must include a base extension before "
+                    "the compression suffix, e.g., '.vcf.gz'."
+                )
+            ext = bioinfo_fmt.get(exts[-2], exts[-2])
+        else:
+            ext = bioinfo_fmt.get(exts[-1], exts[-1])
     else:
-        return ext.lstrip(".")
+        ext = compression_fmt.get(exts[-1], exts[-1])
+        ext = bioinfo_fmt.get(ext, ext)
+
+    return ext.lstrip(".")
 
 
 def move_files(snakemake, mapping, cmd="mv -v"):
