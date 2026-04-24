@@ -96,21 +96,17 @@ def get_format(path, ignore_compression=True):
         ".fastq": "fastq",
     }
 
-    if ignore_compression:
-        if exts[-1] in compression_fmt.keys():
-            if len(exts) < 2:
-                raise ValueError(
-                    "Compressed path must include a base extension before "
-                    "the compression suffix, e.g., '.vcf.gz'."
-                )
-            ext = bioinfo_fmt.get(exts[-2], exts[-2])
-        else:
-            ext = bioinfo_fmt.get(exts[-1], exts[-1])
+    if ignore_compression and exts[-1] in compression_fmt.keys():
+        if len(exts) < 2:
+            raise ValueError(
+                "Compressed path must include a base extension before "
+                "the compression suffix, e.g., '.vcf.gz'."
+            )
+        ext = exts[-2]
     else:
         ext = compression_fmt.get(exts[-1], exts[-1])
-        ext = bioinfo_fmt.get(ext, ext)
-
-    return ext.lstrip(".")
+    ext = bioinfo_fmt.get(ext, ext)
+    return ext.rstrip(".")
 
 
 def move_files(snakemake, mapping, cmd="mv -v"):
