@@ -50,9 +50,9 @@ def is_arg(arg, cmd):
 
 
 def get_format(path, ignore_compression=True):
+    """Get file format from extension, ignoring common compressions on user request"""
     from pathlib import Path
 
-    """Get file format from extension, ignoring common compressions on user request"""
     if not path:
         raise ValueError("Path cannot be empty")
     exts = [s.lower() for s in Path(path).suffixes]
@@ -107,7 +107,7 @@ def get_format(path, ignore_compression=True):
     else:
         ext = compression_fmt.get(exts[-1], exts[-1])
     ext = bioinfo_fmt.get(ext, ext)
-    return ext.rstrip(".")
+    return ext.lstrip(".")
 
 
 def move_files(snakemake, mapping, cmd="mv -v"):
