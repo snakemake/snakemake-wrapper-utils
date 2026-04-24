@@ -68,6 +68,7 @@ def get_format(path, ignore_compression=True):
         # https://en.wikipedia.org/wiki/BGZF
         ".bgz": "bgzip",
         ".bgzip": "bgzip",
+        # https://en.wikipedia.org/wiki/Bzip2
         ".bz2": "bzip2",
         # https://en.wikipedia.org/wiki/XZ_Utils
         ".xz": "lzma",
