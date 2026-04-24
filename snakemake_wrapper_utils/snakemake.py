@@ -75,13 +75,11 @@ def get_format(path, ignore_compression=True):
         # https://en.wikipedia.org/wiki/List_of_file_formats
         ".mgz": "mgzip",
         ".zz": "zlib",
-        ".Z": "zlib",
+        ".z": "zlib",
         # https://github.com/sstadick/crabz/blob/91e58e3bdaaaf9838c14b5734947d82f2453be26/src/main.rs#L24
         ".snappy": "snap",
         ".snap": "snap",
         ".sz": "snap",
-        ".deflat": "deflate",
-        ".defalte": "defalte",
     }
     bioinfo_fmt = {
         # https://en.wikipedia.org/wiki/FASTA_format
