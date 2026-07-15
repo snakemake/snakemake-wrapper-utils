@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.9.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.8.0...v0.9.0) (2026-07-15)
+
+
+### Features
+
+* Add functions for list and get positions of argument on command ([#53](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/53)) ([ea89c0f](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/ea89c0f991c86c6d5d3929e721339dad712d1297))
+* allow for missing files in mapping ([#59](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/59)) ([b5f582e](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/b5f582efd8187f44cfb43f949ae9f44ec22e2429))
+* new formats detection ([#58](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/58)) ([f85d8bf](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/f85d8bfcbbfc2275d10b75442c0dd876d081babe))
+
+
+### Bug Fixes
+
+* Typo in GATK command line arguments ([#56](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/56)) ([53c8556](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/53c855691e96715d96d8d3aaecfd4a64b5800131))
+
 ## [0.8.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.7.2...v0.8.0) (2025-09-11)
 
 

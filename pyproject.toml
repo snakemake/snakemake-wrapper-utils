@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "snakemake-wrapper-utils"
-version = "0.8.0" # placeholder, version is taken from git
+version = "0.9.0" # placeholder, version is taken from git
 description = "A collection of utils for Snakemake wrappers."
 authors = ["Johannes Köster <johannes.koester@tu-dortmund.de>"]
 license = "MIT"
