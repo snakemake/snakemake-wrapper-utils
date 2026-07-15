@@ -115,7 +115,7 @@ def move_files(snakemake, mapping, cmd="mv -v", strict=True):
     Build shell move commands for relocating tool-produced files to named outputs.
 
     mapping must be a dict of {out_tag: source_path}. The out_tag must resolve
-    to a single file path in snakemake.output.
+    to a single file path in `snakemake.output` (unless `strict=False`).
 
     Example:
         mapping = {"tsv": "/tmp/tmp98723489/results/out.tsv"}
