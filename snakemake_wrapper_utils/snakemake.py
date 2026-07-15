@@ -134,10 +134,9 @@ def move_files(snakemake, mapping, cmd="mv -v", required=True):
         out_name = snakemake.output.get(out_tag, "")
         if out_name:
             cmds.append(f"{cmd} '{tool_out_name}' '{out_name}'")
-        else:
-            if required:
-                raise KeyError(
-                    f"The wrapper requires the named output: {out_tag}. Please provide this named output."
-                )
+        elif required:
+            raise KeyError(
+                f"The wrapper requires the named output: {out_tag}. Please provide this named output."
+            )
 
     return cmds
