@@ -110,7 +110,7 @@ def get_format(path, ignore_compression=True):
     return ext.lstrip(".")
 
 
-def move_files(snakemake, mapping, cmd="mv -v"):
+def move_files(snakemake, mapping, cmd="mv -v", strict=True):
     """
     Build shell move commands for relocating tool-produced files to named outputs.
 
@@ -132,7 +132,7 @@ def move_files(snakemake, mapping, cmd="mv -v"):
     cmds = []
     for out_tag, tool_out_name in mapping.items():
         out_name = snakemake.output.get(out_tag, "")
-        if not out_name:
+        if strict and not out_name:
             raise KeyError(
                 f"The wrapper requires the named output: {out_tag}. Please provide this named output."
             )
