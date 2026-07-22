@@ -35,28 +35,24 @@ def list_arg(cmd):
     """Turn command into list."""
     return list(filter(None, cmd.replace("=", " ").split(" ")))
 
+def get_arg(arg, cmd):
+"""Return position of argument on command."""
+    try:
+        return list_arg(cmd).index(arg)
+    except ValueError:
+        return None
 
-def get_arg(args, cmd):
-    """Return position of argument on command."""
-    def _get_arg(arg, cmd):
-        try:
-            return list_arg(cmd).index(arg)
-        except ValueError:
-            return None
+def get_args(args, cmd)
+"""Return position of multiple arguments on command."""
+    return [get_arg(arg, cmd) for arg in args]
 
-    if isinstance(args, list):
-        return [_get_arg(arg, cmd) for arg in args]
-    else:
-        return _get_arg(args, cmd)
+def is_arg(arg, cmd):
+"""Check presence of argument on command."""
+    return get_arg(args, cmd) is not None
 
-
-def is_arg(args, cmd):
-    """Check presence of argument on command."""
-    if isinstance(args, list):
-        return any([get_arg(arg, cmd) is not None for arg in args])
-    else:
-        return get_arg(args, cmd) is not None
-
+def are_args(args, cmd):
+"""Check presence of multiple arguments on command."""
+    return [arg is not None for arg in get_args(args, cmd)]
 
 def get_format(path, ignore_compression=True):
     """Get file format from extension, ignoring common compressions on user request"""
