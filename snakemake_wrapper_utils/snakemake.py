@@ -36,17 +36,26 @@ def list_arg(cmd):
     return list(filter(None, cmd.replace("=", " ").split(" ")))
 
 
-def get_arg(arg, cmd):
+def get_arg(args, cmd):
     """Return position of argument on command."""
-    try:
-        return list_arg(cmd).index(arg)
-    except ValueError:
-        return None
+    _get_arg(arg, cmd):
+        try:
+            return list_arg(cmd).index(arg)
+        except ValueError:
+            return None
+
+    if isinstance(args, list):
+        return [_get_arg(arg, cmd) for arg in args]
+    else:
+        _get_arg(args, cmd)
 
 
-def is_arg(arg, cmd):
+def is_arg(args, cmd):
     """Check presence of argument on command."""
-    return get_arg(arg, cmd) is not None
+    if isinstance(args, list):
+        return any([get_arg(arg, cmd) is not None for arg in args])
+    else:
+        return get_arg(args, cmd) is not None
 
 
 def get_format(path, ignore_compression=True):
