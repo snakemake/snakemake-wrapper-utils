@@ -38,7 +38,7 @@ def list_arg(cmd):
 
 def get_arg(args, cmd):
     """Return position of argument on command."""
-    _get_arg(arg, cmd):
+    def _get_arg(arg, cmd):
         try:
             return list_arg(cmd).index(arg)
         except ValueError:
