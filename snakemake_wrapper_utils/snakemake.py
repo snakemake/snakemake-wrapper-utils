@@ -47,7 +47,7 @@ def get_arg(args, cmd):
     if isinstance(args, list):
         return [_get_arg(arg, cmd) for arg in args]
     else:
-        _get_arg(args, cmd)
+        return _get_arg(args, cmd)
 
 
 def is_arg(args, cmd):
