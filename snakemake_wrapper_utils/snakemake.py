@@ -42,7 +42,7 @@ def get_arg(arg, cmd):
     except ValueError:
         return None
 
-def get_args(args, cmd)
+def get_args(args, cmd):
     """Return position of multiple arguments on command."""
     return [get_arg(arg, cmd) for arg in args]
 
