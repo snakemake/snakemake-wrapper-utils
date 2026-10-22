@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.10.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.9.0...v0.10.0) (2026-10-22)
+
+
+### Features
+
+* test multiple args ([#60](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/60)) ([e060665](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/e0606657b56790e53dde1a70fbe44a0ddf96a9ed))
+
+
+### Bug Fixes
+
+* add `".zst": "zstd"` to known `compression_fmt`s for get_format ([#62](https://www.github.com/snakemake/snakemake-wrapper-utils/issues/62)) ([d9d0f1f](https://www.github.com/snakemake/snakemake-wrapper-utils/commit/d9d0f1f3bef5ef2b1d402c330975615791cdfead))
+
 ## [0.9.0](https://www.github.com/snakemake/snakemake-wrapper-utils/compare/v0.8.0...v0.9.0) (2026-07-15)
 
 
