@@ -82,6 +82,8 @@ def get_format(path, ignore_compression=True):
         ".mgz": "mgzip",
         ".zz": "zlib",
         ".z": "zlib",
+        # https://github.com/facebook/zstd
+        ".zst": "zstd",
         # https://github.com/sstadick/crabz/blob/91e58e3bdaaaf9838c14b5734947d82f2453be26/src/main.rs#L24
         ".snappy": "snap",
         ".snap": "snap",
